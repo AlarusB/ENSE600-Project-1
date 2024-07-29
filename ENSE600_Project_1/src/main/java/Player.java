@@ -23,24 +23,15 @@ public class Player {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getHealth() {
         return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public int getAttack() {
         return attack;
     }
 
-    public void setAttack(int attack) {
-        this.attack = attack;
+    public void takeDamage(int damage) {
+        this.health -= damage;
     }
-
 }
