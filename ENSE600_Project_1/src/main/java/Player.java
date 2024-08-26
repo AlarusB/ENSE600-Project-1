@@ -10,13 +10,20 @@
 public class Player {
 
     private String name;
+    private int level;
     private int health;
-    private int attack;
+    private int attackCharacter;
+    private Weapon weapon;
+    private double attackBonus;
+    private double defenseIgnore;
 
-    public Player(String name, int health, int attack) {
+    public Player(String name, int level, int health, int attackCharacter, Weapon weapon, double defenseIgnore) {
         this.name = name;
+        this.level = level;
         this.health = health;
-        this.attack = attack;
+        this.attackCharacter = attackCharacter;
+        this.weapon = weapon;
+        this.defenseIgnore = defenseIgnore;
     }
 
     public String getName() {
@@ -27,11 +34,16 @@ public class Player {
         return health;
     }
 
-    public int getAttack() {
-        return attack;
+    public int calculateAttack() {
+        return (int) ((attackCharacter + weapon.getAttackPower()) * (1 + weapon.getAttackBonus()));
     }
 
     public void takeDamage(int damage) {
         this.health -= damage;
+    }
+    
+    public void changeWeapon(Weapon newWeapon) {
+        this.weapon = newWeapon;
+        System.out.println("Equipped " + newWeapon.getName());
     }
 }
