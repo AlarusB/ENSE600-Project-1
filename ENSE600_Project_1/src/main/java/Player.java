@@ -31,10 +31,10 @@ public class Player {
     }
 
     public int getHealth() {
-        return health;
+        return  (int) (health * (1 + (level / 100)));
     }
 
-    public int calculateAttack() {
+    public int getAttack() {
         return (int) ((attackCharacter + weapon.getAttackPower()) * (1 + weapon.getAttackBonus()));
     }
 
