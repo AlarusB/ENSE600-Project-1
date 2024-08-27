@@ -8,31 +8,29 @@
  * @author alexs
  */
 public class Potion {
-    private String name;
-    private double effectValue;
-    private PotionType type;
+    public enum PotionType { BUFF, DEBUFF }
 
-    public enum PotionType {
-        DEFENSE_REDUCTION,
-        ATTACK_BONUS
+    private String potionName;
+    private PotionType potionType;
+    private int potionEffectValue;
+
+    public Potion(String potionName, PotionType potionType, int potionEffectValue) {
+        this.potionName = potionName;
+        this.potionType = potionType;
+        this.potionEffectValue = potionEffectValue;
     }
 
-    public Potion(String name, double effectValue, PotionType type) {
-        this.name = name;
-        this.effectValue = effectValue;
-        this.type = type;
+    public String getPotionName() {
+        return potionName;
     }
 
-    public String getName() {
-        return name;
+    public PotionType getPotionType() {
+        return potionType;
     }
 
-    public double getEffectValue() {
-        return effectValue;
-    }
-
-    public PotionType getType() {
-        return type;
+    public int getPotionEffectValue() {
+        return potionEffectValue;
     }
 }
+
 

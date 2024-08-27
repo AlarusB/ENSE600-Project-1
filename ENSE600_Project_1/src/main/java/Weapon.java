@@ -8,20 +8,21 @@
  * @author alexs
  */
 public class Weapon {
-    private String name;
-    private int attackPower;
+    private String weaponName;
+    private int weaponATK;
 
-    public Weapon(String name, int attackPower, double attackBonus) {
-        this.name = name;
-        this.attackPower = attackPower;
+    public Weapon(String weaponName, int weaponATK) {
+        this.weaponName = weaponName;
+        this.weaponATK = weaponATK;
     }
 
-    public String getName() {
-        return name;
+    public String getWeaponName() {
+        return weaponName;
     }
 
-    public int getAttackPower() {
-        return attackPower;
+    public int getWeaponATK() {
+        return weaponATK;
     }
 }
+
 

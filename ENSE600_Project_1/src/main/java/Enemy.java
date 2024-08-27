@@ -9,50 +9,35 @@ import java.io.Serializable;
  *
  * @author alexs
  */
-public class Enemy implements Serializable {
-
-    private String name;
-    private int level;
-    private int baseHP;
-    private int baseAttack;
-    private double currentDefenseReduction;
-
-    public Enemy(String name, int level, int baseHP, double currentDefenseReduction) {
-        this.name = name;
-        this.level = level;
-        this.baseHP = baseHP;
-        this.baseAttack = baseAttack;
-        this.currentDefenseReduction = 0.0;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int EHP() {
-        return (baseHP * (1 + (level / 100)));
-    }
+public class Enemy {
+    private  String enemyName;
+    private  int enemyLevel;
     
-    public int EATK() {
-        return (baseAttack * (1 + (level / 100)));
+    private  int baseHP;
+    private  int enemyHP;
+    
+    private  int baseATK;
+    private  int enemyATK;
+    
+    private  int enemyDefenseReduction;
+
+    public Enemy(String enemyName, int enemyLevel, int baseHP, int baseATK) {
+        this.enemyName = enemyName;
+        this.enemyLevel = enemyLevel;
+        this.baseHP = baseHP;
+        this.baseATK = baseATK;
+        this.enemyDefenseReduction = 0;
+        updateStats();
     }
 
-    public double getCurrentDefenseReduction() {
-        return currentDefenseReduction;
+    private void updateStats() {
+        this.enemyHP = baseHP * (1 + (enemyLevel / 100.0));
+        this.enemyATK = baseATK * (1 + (enemyLevel / 100.0));
     }
 
-    public void attack(Player player) {
-        int damage = EATK();
-        System.out.println(name + " attacks " + player.getName() + " for " + damage + " damage!");
-        player.takeDamage(damage);
+    public void applyDefenseReduction(int reduction) {
+        this.enemyDefenseReduction = reduction;
     }
 
-    public boolean isDefeated() {
-        return EHP() <= 0;
-    }
-
+    // more methods eg: takeDamage(), attack(), etc.
 }
