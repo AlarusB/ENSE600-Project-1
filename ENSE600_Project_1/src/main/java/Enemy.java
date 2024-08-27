@@ -31,13 +31,17 @@ public class Enemy {
     }
 
     private void updateStats() {
-        this.enemyHP = baseHP * (1 + (enemyLevel / 100.0));
-        this.enemyATK = baseATK * (1 + (enemyLevel / 100.0));
+        this.enemyHP = baseHP * (1 + (enemyLevel / 100));
+        this.enemyATK = baseATK * (1 + (enemyLevel / 100));
     }
 
     public void applyDefenseReduction(int reduction) {
         this.enemyDefenseReduction = reduction;
     }
-
-    // more methods eg: takeDamage(), attack(), etc.
+    
+    public void takeDamage(int damage) {
+        enemyHP = enemyHP - (damage * (1 * (enemyDefenseReduction / 100)));
+        if (enemyHP < 0) enemyHP = 0;
+        System.out.println("winner!!!");
+    }
 }
