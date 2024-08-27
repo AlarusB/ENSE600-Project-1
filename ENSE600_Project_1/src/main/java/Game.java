@@ -13,6 +13,7 @@ public class Game {
 
     private Player player;
     private Scanner scanner;
+    private Enemy[] enemies;
 
     public Game() {
         // weapon creation
@@ -32,10 +33,10 @@ public class Game {
         Enemy Slime = new Slime(5);
 
         
-        start(Slime, attackPotion, highAttackPotion, vulnerablePotion, highVulnerablePotion);
+                start(attackPotion, highAttackPotion, vulnerablePotion, highVulnerablePotion);
     }
 
-    private void start(Enemy enemy, Potion defenseReductionPotion, Potion attackBonusPotion, Potion vulnerablePotion, Potion highVulnerablePotion) {
+    private void start(Potion attackPotion, Potion highAttackPotion, Potion vulnerablePotion, Potion highVulnerablePotion) {
         while (true) {
             System.out.println("1. Fight");
             System.out.println("2. Change Weapon");
@@ -45,6 +46,7 @@ public class Game {
 
             switch (choice) {
                 case 1:
+                    fightMenu();
                     break;
                 case 2:
                     changeWeaponMenu();
@@ -57,6 +59,39 @@ public class Game {
                     break;
             }
         }
+    }
+
+    private void fightMenu() {
+        System.out.println("Choose an enemy to fight:");
+        for (int i = 0; i < enemies.length; i++) {
+            System.out.println((i + 1) + ". " + enemies[i].getName() + " (Level " + enemies[i].getLevel() + ")");
+        }
+        System.out.print("Choose: ");
+        int choice = scanner.nextInt();
+
+        if (choice < 1 || choice > enemies.length) {
+            System.out.println("Invalid choice!");
+        } else {
+            Enemy enemy = enemies[choice - 1];
+            fight(enemy);
+        }
+    }
+
+    private void fight(Enemy enemy) {
+        System.out.println("Fighting " + enemy.getName() + "!");
+        while (!enemy.isDefeated() && !player.isDefeated()) {
+            enemy.attack(player);
+            if (!player.isDefeated()) {
+                player.attack(enemy);
+            }
+        }
+
+        if (player.isDefeated()) {
+            System.out.println("You were defeated by " + enemy.getName() + "...");
+        } else {
+            System.out.println("You defeated " + enemy.getName() + "!");
+        }
+
     }
 
     private void usePotionMenu(Potion attackPotion, Potion highAttackPotion, Potion vulnerablePotion, Potion highVulnerablePotion) {
@@ -110,5 +145,4 @@ public class Game {
                 break;
         }
     }
-
 }
