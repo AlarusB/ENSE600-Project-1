@@ -28,13 +28,14 @@ public class Game {
         Potion highAttackPotion = new Potion("High Attack Potion", 150, Potion.PotionType.ATTACK_BONUS);
         Potion vulnerablePotion = new Potion("Vulnerable Potion", 0.05, Potion.PotionType.DEFENSE_REDUCTION);
         Potion highVulnerablePotion = new Potion("High Vulnerable Potion", 0.15, Potion.PotionType.DEFENSE_REDUCTION);
-
-        Enemy bannana = new Enemy( bannana, 15, 100, 0);
         
-        start();
+        Enemy Slime = new Slime(5);
+
+        
+        start(Slime, attackPotion, highAttackPotion, vulnerablePotion, highVulnerablePotion);
     }
 
-    private void start(Enemy enemy, Potion defenseReductionPotion, Potion attackBonusPotion) {
+    private void start(Enemy enemy, Potion defenseReductionPotion, Potion attackBonusPotion, Potion vulnerablePotion, Potion highVulnerablePotion) {
         while (true) {
             System.out.println("1. Fight");
             System.out.println("2. Change Weapon");
