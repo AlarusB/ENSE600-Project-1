@@ -1,4 +1,3 @@
-
 import java.io.Serializable;
 
 /*
@@ -14,13 +13,13 @@ public class Enemy implements Serializable {
     private String name;
     private int level;
     private int baseHP;
-    private double levelMultiplier;
+    private double currentDefenseReduction;
 
-    public Enemy(String name, int level, int baseHP, double levelMultiplier, int challengeRating) {
+    public Enemy(String name, int level, int baseHP, double currentDefenseReduction) {
         this.name = name;
         this.level = level;
         this.baseHP = baseHP;
-        this.levelMultiplier = levelMultiplier;
+        this.currentDefenseReduction = 0.0;
     }
 
     public int getLevel() {
@@ -28,7 +27,15 @@ public class Enemy implements Serializable {
     }
 
     public int calculateMaxHP() {
-        return (int) (baseHP * levelMultiplier);
+        return (int) (baseHP * (1 + (level/100)));
+    }
+    
+    public void applyDefenseReduction(double reduction) {
+        this.currentDefenseReduction = reduction;
+    }
+    
+    public double getCurrentDefenseReduction() {
+        return currentDefenseReduction;
     }
 
 

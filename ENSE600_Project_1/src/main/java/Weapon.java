@@ -10,12 +10,10 @@
 public class Weapon {
     private String name;
     private int attackPower;
-    private double attackBonus;
 
     public Weapon(String name, int attackPower, double attackBonus) {
         this.name = name;
         this.attackPower = attackPower;
-        this.attackBonus = attackBonus;
     }
 
     public String getName() {
@@ -24,10 +22,6 @@ public class Weapon {
 
     public int getAttackPower() {
         return attackPower;
-    }
-
-    public double getAttackBonus() {
-        return attackBonus;
     }
 }
 

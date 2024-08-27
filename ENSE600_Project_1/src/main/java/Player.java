@@ -14,8 +14,7 @@ public class Player {
     private int health;
     private int attackCharacter;
     private Weapon weapon;
-    private double attackBonus;
-    private double defenseIgnore;
+    private int attackBonus;
 
     public Player(String name, int level, int health, int attackCharacter, Weapon weapon, double defenseIgnore) {
         this.name = name;
@@ -23,7 +22,7 @@ public class Player {
         this.health = health;
         this.attackCharacter = attackCharacter;
         this.weapon = weapon;
-        this.defenseIgnore = defenseIgnore;
+        this.attackBonus = 0;
     }
 
     public String getName() {
@@ -33,9 +32,13 @@ public class Player {
     public int getHealth() {
         return  (int) (health * (1 + (level / 100)));
     }
+    
+    public int getattckBonus() {
+        return attackBonus;
+    }
 
     public int getAttack() {
-        return (int) ((attackCharacter + weapon.getAttackPower()) * (1 + weapon.getAttackBonus()));
+        return (int) (attackCharacter + weapon.getAttackPower() + attackBonus);
     }
 
     public void takeDamage(int damage) {
