@@ -34,7 +34,10 @@ public class Game {
                     System.exit(0);
                 }
             }
-
+                
+            System.out.println("playerHP: " + player.getCurrentPlayerHP());
+            System.out.println(enemy.getEnemyName() + " HP: " + enemy.getEnemyHP() + "\n");
+            
             System.out.println("1. Fight enemy");
             System.out.println("2. Use potion");
             System.out.println("3. Save game");
@@ -71,13 +74,10 @@ public class Game {
     private void fightEnemy() {
         boolean continueFighting = true;
 
-        while (continueFighting && player.getPlayerHP() > 0) {
+        while (continueFighting && player.getCurrentPlayerHP() > 0) {
             Battle battle = new Battle(player, enemy);
 
-            System.out.println("playerHP: " + player.getPlayerHP());
-            System.out.println(enemy.getEnemyName() + " HP: " + enemy.getEnemyHP() + "\n");
-
-            if (enemy.getEnemyHP() > 0 && player.getPlayerHP() > 0) {
+            if (enemy.getEnemyHP() > 0 && player.getCurrentPlayerHP() > 0) {
                 battle.attackEnemy();
                 if (enemy.getEnemyHP() > 0) {
                     battle.attackPlayer();
@@ -85,7 +85,7 @@ public class Game {
                 }
             }
 
-            if (enemy.getEnemyHP() <= 0 && player.getPlayerHP() != 0) {
+            if (enemy.getEnemyHP() <= 0 && player.getCurrentPlayerHP() != 0) {
                 System.out.println("You defeated " + enemy.getEnemyName() + "!");
                 System.out.println("Do you want to fight another enemy? (yes/no)");
                 if (scanner.next().equalsIgnoreCase("yes")) {
@@ -95,7 +95,7 @@ public class Game {
                     System.exit(0);
                 }
 
-            } else if (player.getPlayerHP() <= 0) {
+            } else if (player.getCurrentPlayerHP() <= 0) {
                 System.out.println("damn bro.");
                 System.exit(0);
             } else {
@@ -111,7 +111,6 @@ public class Game {
                 return new Enemy("Goblin", 5, 50, 10);// enemyName, enemyLevel, baseHP, baseATK
             case 1:
                 return new Enemy("Orc", 8, 80, 15);
-
             case 2:
                 return new Enemy("Dragon", 12, 120, 25);
             default:

@@ -19,7 +19,6 @@ public class Battle {
     public void attackEnemy() {
         int damage = player.getPlayerATK();
         enemy.takeDamage(damage);
-        System.out.println(player.getPlayerName() + " attacks " + enemy.getEnemyName() + " for " + damage + " damage!");
     }
 
     public void attackPlayer() {

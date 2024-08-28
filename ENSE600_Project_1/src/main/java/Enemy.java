@@ -40,7 +40,10 @@ public class Enemy {
     }
     
     public void takeDamage(int damage) {
-        enemyHP -= (damage + (damage * (enemyDefenseReduction/100)));
+        double totaldmg = (damage + (damage * (enemyDefenseReduction/100)));
+        enemyHP -= totaldmg;
+        System.out.println("Player attacks " + enemyName + " for " + totaldmg + " damage!");
+
         if (getEnemyHP() < 0) {
             enemyHP = 0;
             System.out.println("winner!!!");

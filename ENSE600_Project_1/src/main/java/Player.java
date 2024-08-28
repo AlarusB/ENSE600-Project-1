@@ -12,10 +12,11 @@ import java.io.*;
 public class Player {
 
     private String playerName;
-    private int playerLevel;
+    private double playerLevel;
 
-    private int baseHP;
-    private double playerHP;
+    private double baseHP;
+    private double maxPlayerHP;
+    private double currentPlayerHP;
 
     private int baseATK;
     private int playerATK;
@@ -31,8 +32,8 @@ public class Player {
         this.baseATK = baseATK;
         this.weapon = weapon;
         this.bonusATK = 0;
-        this.playerHP = baseHP * (1 + (playerLevel / 100));
         updateStats();
+        currentPlayerHP = maxPlayerHP;
     }
 
     public void applyBonusATK(int bonusATK) {
@@ -42,13 +43,14 @@ public class Player {
 
     private void updateStats() {
         this.playerATK = baseATK + weapon.getWeaponATK() + bonusATK;
+        this.maxPlayerHP = baseHP * (1 + (playerLevel / 100));
 
     }
 
     public void takeDamage(int damage) {
-        playerHP -= damage;
-        if (getPlayerHP() < 0) {
-            playerHP = 0;
+        currentPlayerHP -= damage;
+        if (currentPlayerHP < 0) {
+            currentPlayerHP = 0;
             System.out.println("player dead...");
         }
     }
@@ -73,14 +75,15 @@ public class Player {
     }
 
     public String getPlayerName() { return playerName; }
-    public int getPlayerLevel() { return playerLevel; }
-    public double getPlayerHP() { return playerHP; }
+    public double getPlayerLevel() { return playerLevel; }
+    public double getMaxPlayerHP() { return maxPlayerHP; }
+    public double getCurrentPlayerHP() { return currentPlayerHP; }
     public int getPlayerATK() { return playerATK; }
     public Weapon getWeapon() { return weapon; }
     public int getBonusATK() { return bonusATK; }
     
     public void setPlayerName(String playerName) { this.playerName = playerName; }
-    public void setPlayerLevel(int playerLevel) { this.playerLevel = playerLevel; updateStats(); }
+    public void setPlayerLevel(double playerLevel) { this.playerLevel = playerLevel; updateStats(); }
     public void setBaseHealth(int baseHP) { this.baseHP = baseHP; updateStats(); }
     public void setBaseATK(int baseATK) { this.baseATK = baseATK; updateStats(); }
     public void setWeapon(Weapon weapon) { this.weapon = weapon; updateStats(); }
