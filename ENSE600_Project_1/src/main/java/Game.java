@@ -10,21 +10,28 @@ import java.util.Scanner;
  * @author alexs
  */
 public class Game {
+
     private Player player;
+    private Enemy enemy;
     private Scanner scanner;
 
-    public Game(Player player) {
+    public Game(Player player, Enemy enemy) {
         this.player = player;
+        this.enemy = enemy;
         this.scanner = new Scanner(System.in);
     }
 
     public void startGame() {
         while (true) {
+            System.out.println(enemy.getEnemyHP());
+            System.out.println(player.getPlayerHP());
+
             System.out.println("1. Fight enemy");
             System.out.println("2. Use potion");
             System.out.println("3. Save game");
             System.out.println("4. Load game");
             System.out.print("Choose an action: ");
+
             int choice = scanner.nextInt();
 
             switch (choice) {
@@ -43,6 +50,8 @@ public class Game {
                         player = loadedPlayer;
                     }
                     break;
+                case 5:
+                    System.exit(0);
                 default:
                     System.out.println("Invalid choice!");
             }
@@ -50,7 +59,6 @@ public class Game {
     }
 
     private void fightEnemy() {
-        Enemy enemy = new Enemy("Goblin", 5, 500, 10);  // enemyName, enemyLevel, baseHP, baseATK
         Battle battle = new Battle(player, enemy);
         battle.attackEnemy();
         battle.attackPlayer();
@@ -58,10 +66,29 @@ public class Game {
     }
 
     private void usePotion() {
-        Potion attackPotion = new Potion("Attack Potion", Potion.PotionType.BUFF, 50);
-        player.applyBonusATK(attackPotion.getPotionEffectValue());
-        System.out.println("Used " + attackPotion.getPotionName() + "! Attack increased by " + attackPotion.getPotionEffectValue() + ".");
-    }
+        System.out.println("1. buff atk");
+        System.out.println("2. weaken enemy");
+        System.out.println("3. back");
+        int choice = scanner.nextInt();
 
-    // more game logic...
+        switch (choice) {
+            case 1:
+                Potion attackPotion = new Potion("Attack Potion", Potion.PotionType.BUFF, 50);
+                player.applyBonusATK(attackPotion.getPotionEffectValue());
+                System.out.println("Used " + attackPotion.getPotionName() + "! Attack increased by " + attackPotion.getPotionEffectValue() + ".");
+                break;
+            case 2:
+                Potion weakenPotion = new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10);
+                enemy.applyDefenseReduction(weakenPotion.getPotionEffectValue());
+                System.out.println("Used " + weakenPotion.getPotionName() + "! Enemy weakened by " + weakenPotion.getPotionEffectValue() + ".");
+                break;
+            case 3:
+                break;
+            default:
+                System.out.println("Invalid choice!");
+
+        }
+
+        // more game logic...
+    }
 }

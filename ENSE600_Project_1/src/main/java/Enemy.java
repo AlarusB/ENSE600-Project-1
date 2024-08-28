@@ -14,12 +14,12 @@ public class Enemy {
     private  int enemyLevel;
     
     private  int baseHP;
-    private  int enemyHP;
+    private  double enemyHP;
     
     private  int baseATK;
     private  int enemyATK;
     
-    private  int enemyDefenseReduction;
+    private  double enemyDefenseReduction;
 
     public Enemy(String enemyName, int enemyLevel, int baseHP, int baseATK) {
         this.enemyName = enemyName;
@@ -27,11 +27,11 @@ public class Enemy {
         this.baseHP = baseHP;
         this.baseATK = baseATK;
         this.enemyDefenseReduction = 0;
+        this.enemyHP = baseHP * (1 + (enemyLevel / 100));
         updateStats();
     }
 
     private void updateStats() {
-        this.enemyHP = baseHP * (1 + (enemyLevel / 100));
         this.enemyATK = baseATK * (1 + (enemyLevel / 100));
     }
 
@@ -40,21 +40,23 @@ public class Enemy {
     }
     
     public void takeDamage(int damage) {
-        enemyHP = getEnemyHP() - (damage * (1 * (enemyDefenseReduction / 100)));
-        if (getEnemyHP() < 0) enemyHP = 0;
-        System.out.println("winner!!!");
+        enemyHP -= (damage + (damage * (enemyDefenseReduction/100)));
+        if (getEnemyHP() < 0) {
+            enemyHP = 0;
+            System.out.println("winner!!!");
+        }
     }
 
 public String getEnemyName() { return enemyName; }
     public int getEnemyLevel() { return enemyLevel; }
-    public int getEnemyHP() { return enemyHP; }
+    public double getEnemyHP() { return enemyHP; }
     public int getEnemyATK() { return enemyATK; }
-    public int getEnemyDefenseReduction() { return enemyDefenseReduction; }
+    public double getEnemyDefenseReduction() { return enemyDefenseReduction; }
 
     public void setEnemyName(String enemyName) { this.enemyName = enemyName; }
     public void setEnemyLevel(int enemyLevel) { this.enemyLevel = enemyLevel; updateStats(); }
     public void setBaseHP(int baseHP) { this.baseHP = baseHP; updateStats(); }
     public void setBaseATK(int baseATK) { this.baseATK = baseATK; updateStats(); }
-    public void setEnemyDefenseReduction(int enemyDefenseReduction) { this.enemyDefenseReduction = enemyDefenseReduction; }
+    public void setEnemyDefenseReduction(double enemyDefenseReduction) { this.enemyDefenseReduction = enemyDefenseReduction; }
 
 }
