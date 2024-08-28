@@ -16,13 +16,12 @@ public class Weapon {
         this.weaponATK = weaponATK;
     }
 
-    public String getWeaponName() {
-        return weaponName;
-    }
+    public String getWeaponName() { return weaponName; }
+    public int getWeaponATK() { return weaponATK; }
 
-    public int getWeaponATK() {
-        return weaponATK;
-    }
+    public void setWeaponName(String weaponName) { this.weaponName = weaponName; }
+    public void setWeaponATK(int weaponATK) { this.weaponATK = weaponATK; }
+
 }
 
 

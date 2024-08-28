@@ -10,7 +10,7 @@
 public class Main {
     public static void main(String[] args) {
         Weapon startingWeapon = new Weapon("Bannana", 10);
-        Player player = new Player("Guy", 1, 100, 20, startingWeapon);
+        Player player = new Player("Guy", 1, 1000, 20, startingWeapon); //playerName, playerLevel, baseHealth, baseATK, weapon
         Game game = new Game(player);
         game.startGame();
     }

@@ -40,8 +40,21 @@ public class Enemy {
     }
     
     public void takeDamage(int damage) {
-        enemyHP = enemyHP - (damage * (1 * (enemyDefenseReduction / 100)));
-        if (enemyHP < 0) enemyHP = 0;
+        enemyHP = getEnemyHP() - (damage * (1 * (enemyDefenseReduction / 100)));
+        if (getEnemyHP() < 0) enemyHP = 0;
         System.out.println("winner!!!");
     }
+
+public String getEnemyName() { return enemyName; }
+    public int getEnemyLevel() { return enemyLevel; }
+    public int getEnemyHP() { return enemyHP; }
+    public int getEnemyATK() { return enemyATK; }
+    public int getEnemyDefenseReduction() { return enemyDefenseReduction; }
+
+    public void setEnemyName(String enemyName) { this.enemyName = enemyName; }
+    public void setEnemyLevel(int enemyLevel) { this.enemyLevel = enemyLevel; updateStats(); }
+    public void setBaseHP(int baseHP) { this.baseHP = baseHP; updateStats(); }
+    public void setBaseATK(int baseATK) { this.baseATK = baseATK; updateStats(); }
+    public void setEnemyDefenseReduction(int enemyDefenseReduction) { this.enemyDefenseReduction = enemyDefenseReduction; }
+
 }

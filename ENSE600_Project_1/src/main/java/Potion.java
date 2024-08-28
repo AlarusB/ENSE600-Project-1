@@ -20,17 +20,14 @@ public class Potion {
         this.potionEffectValue = potionEffectValue;
     }
 
-    public String getPotionName() {
-        return potionName;
-    }
+    public String getPotionName() { return potionName; }
+    public PotionType getPotionType() { return potionType; }
+    public int getPotionEffectValue() { return potionEffectValue; }
 
-    public PotionType getPotionType() {
-        return potionType;
-    }
+    public void setPotionName(String potionName) { this.potionName = potionName; }
+    public void setPotionType(PotionType potionType) { this.potionType = potionType; }
+    public void setPotionEffectValue(int potionEffectValue) { this.potionEffectValue = potionEffectValue; }
 
-    public int getPotionEffectValue() {
-        return potionEffectValue;
-    }
 }
 
 

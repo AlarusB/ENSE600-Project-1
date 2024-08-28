@@ -46,11 +46,13 @@ public class Player {
 
     public void takeDamage(int damage) {
         playerHP -= damage;
-        if (playerHP < 0) {
+        if (getPlayerHP() < 0) {
             playerHP = 0;
         }
         System.out.println("player dead...");
     }
+    
+    
 
     public void saveToFile(String filename) {
         try ( ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
@@ -69,5 +71,17 @@ public class Player {
         }
     }
 
-    // more methods like takeDamage(), attack(), etc.
+    public String getPlayerName() { return playerName; }
+    public int getPlayerLevel() { return playerLevel; }
+    public int getPlayerHP() { return playerHP; }
+    public int getPlayerATK() { return playerATK; }
+    public Weapon getWeapon() { return weapon; }
+    public int getBonusATK() { return bonusATK; }
+    
+    public void setPlayerName(String playerName) { this.playerName = playerName; }
+    public void setPlayerLevel(int playerLevel) { this.playerLevel = playerLevel; updateStats(); }
+    public void setBaseHealth(int baseHP) { this.baseHP = baseHP; updateStats(); }
+    public void setBaseATK(int baseATK) { this.baseATK = baseATK; updateStats(); }
+    public void setWeapon(Weapon weapon) { this.weapon = weapon; updateStats(); }
+    public void setBonusATK(int bonusATK) { this.bonusATK = bonusATK; updateStats(); }
 }

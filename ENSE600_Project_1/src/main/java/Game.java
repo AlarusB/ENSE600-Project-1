@@ -50,7 +50,7 @@ public class Game {
     }
 
     private void fightEnemy() {
-        Enemy enemy = new Enemy("Goblin", 5, 50, 10);  // Example enemy
+        Enemy enemy = new Enemy("Goblin", 5, 500, 10);  // enemyName, enemyLevel, baseHP, baseATK
         Battle battle = new Battle(player, enemy);
         battle.attackEnemy();
         battle.attackPlayer();
