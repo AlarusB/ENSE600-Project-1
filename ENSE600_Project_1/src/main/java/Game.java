@@ -12,24 +12,34 @@ import java.util.Scanner;
 public class Game {
 
     private Player player;
-    private Enemy enemy;
     private Scanner scanner;
+    private boolean inBattle;
 
-    public Game(Player player, Enemy enemy) {
+    public Game(Player player) {
         this.player = player;
-        this.enemy = enemy;
         this.scanner = new Scanner(System.in);
     }
 
+    Enemy enemy = RandomEnemy();
+
     public void startGame() {
         while (true) {
-            System.out.println(enemy.getEnemyHP());
-            System.out.println(player.getPlayerHP());
+            while (inBattle == false) {
+                System.out.println("ready to start? (yes/no)");
+                if (scanner.next().equalsIgnoreCase("yes")) {
+                    enemy = RandomEnemy();
+                    System.out.println("A wild " + enemy.getEnemyName() + " appears!");
+                    inBattle = true;
+                } else {
+                    System.exit(0);
+                }
+            }
 
             System.out.println("1. Fight enemy");
             System.out.println("2. Use potion");
             System.out.println("3. Save game");
             System.out.println("4. Load game");
+            System.out.println("5. exit");
             System.out.print("Choose an action: ");
 
             int choice = scanner.nextInt();
@@ -59,10 +69,55 @@ public class Game {
     }
 
     private void fightEnemy() {
-        Battle battle = new Battle(player, enemy);
-        battle.attackEnemy();
-        battle.attackPlayer();
-        // more battle handling...
+        boolean continueFighting = true;
+
+        while (continueFighting && player.getPlayerHP() > 0) {
+            Battle battle = new Battle(player, enemy);
+
+            System.out.println("playerHP: " + player.getPlayerHP());
+            System.out.println(enemy.getEnemyName() + " HP: " + enemy.getEnemyHP() + "\n");
+
+            if (enemy.getEnemyHP() > 0 && player.getPlayerHP() > 0) {
+                battle.attackEnemy();
+                if (enemy.getEnemyHP() > 0) {
+                    battle.attackPlayer();
+                    break;
+                }
+            }
+
+            if (enemy.getEnemyHP() <= 0 && player.getPlayerHP() != 0) {
+                System.out.println("You defeated " + enemy.getEnemyName() + "!");
+                System.out.println("Do you want to fight another enemy? (yes/no)");
+                if (scanner.next().equalsIgnoreCase("yes")) {
+                    inBattle = false;
+                    break;
+                } else {
+                    System.exit(0);
+                }
+
+            } else if (player.getPlayerHP() <= 0) {
+                System.out.println("damn bro.");
+                System.exit(0);
+            } else {
+
+            }
+        }
+    }
+
+    private Enemy RandomEnemy() {
+        int enemyType = (int) (Math.random() * 3);
+        switch (enemyType) {
+            case 0:
+                return new Enemy("Goblin", 5, 50, 10);// enemyName, enemyLevel, baseHP, baseATK
+            case 1:
+                return new Enemy("Orc", 8, 80, 15);
+
+            case 2:
+                return new Enemy("Dragon", 12, 120, 25);
+            default:
+                return new Enemy("Goblin", 5, 50, 10);
+
+        }
     }
 
     private void usePotion() {
