@@ -47,7 +47,7 @@ public class Player {
 
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(double damage) {
         if (currentPlayerHP <= 0) {
             System.out.println("Player is already dead...");
             return;

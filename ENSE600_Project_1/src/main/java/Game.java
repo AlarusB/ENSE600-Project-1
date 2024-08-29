@@ -25,20 +25,21 @@ public class Game {
     public void startGame() {
         while (true) {
             while (inBattle == false) {
-                System.out.println("ready to start? (yes/no)");
-                if (scanner.next().equalsIgnoreCase("yes")) {
+                System.out.println("enter battle? - yes(y)/no(n)");
+                String input = scanner.nextLine().trim();
+                if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
                     enemy = RandomEnemy();
                     System.out.println("A wild " + enemy.getEnemyName() + " appears!");
                     inBattle = true;
-                } else if (scanner.next().equalsIgnoreCase("no")) {
+                } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")) {
                     System.exit(0);
                 } else {
                     System.out.println("Invalid choice!");
                 }
             }
                 
-            System.out.println("playerHP: " + player.getCurrentPlayerHP());
-            System.out.println(enemy.getEnemyName() + " HP: " + enemy.getEnemyHP() + "\n");
+            System.out.println("playerLevel: " + player.getPlayerLevel() + " playerHP: " + player.getCurrentPlayerHP());
+            System.out.println(enemy.getEnemyName() + "Level: " + enemy.getEnemyLevel() + " " + enemy.getEnemyName() + " HP: " + enemy.getEnemyHP() + "\n");
             
             System.out.println("1. Fight enemy");
             System.out.println("2. Use potion");
@@ -89,13 +90,9 @@ public class Game {
 
             if (enemy.getEnemyHP() <= 0 && player.getCurrentPlayerHP() != 0) {
                 System.out.println("You defeated " + enemy.getEnemyName() + "!");
-                System.out.println("Do you want to fight another enemy? (yes/no)");
-                if (scanner.next().equalsIgnoreCase("yes")) {
-                    inBattle = false;
-                    break;
-                } else {
-                    System.exit(0);
-                }
+                inBattle = false;
+                enemy = RandomEnemy();
+                break;
 
             } else if (player.getCurrentPlayerHP() <= 0) {
                 System.out.println("damn bro.");
@@ -108,15 +105,16 @@ public class Game {
 
     private Enemy RandomEnemy() {
         int enemyType = (int) (Math.random() * 3);
+        int randomLevel = 1 + (int) (Math.random() * 50);
         switch (enemyType) {
             case 0:
-                return new Enemy("Goblin", 5, 50, 10);// enemyName, enemyLevel, baseHP, baseATK
+                return new Enemy("Goblin", randomLevel, 50, 10);// enemyName, enemyLevel, baseHP, baseATK
             case 1:
-                return new Enemy("Orc", 8, 80, 15);
+                return new Enemy("Orc", randomLevel, 80, 15);
             case 2:
-                return new Enemy("Dragon", 12, 120, 25);
+                return new Enemy("Dragon", randomLevel, 120, 25);
             default:
-                return new Enemy("Goblin", 5, 50, 10);
+                return new Enemy("Goblin", randomLevel, 50, 10);
 
         }
     }

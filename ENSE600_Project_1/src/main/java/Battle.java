@@ -22,9 +22,9 @@ public class Battle {
     }
 
     public void attackPlayer() {
-        int damage = enemy.getEnemyATK();
+        double damage = enemy.getEnemyATK();
         player.takeDamage(damage);
-        System.out.println(enemy.getEnemyName() + " attacks " + player.getPlayerName() + " for " + damage + " damage!");
+        System.out.println(enemy.getEnemyName() + " attacks " + player.getPlayerName() + " for " + damage + " damage!\n");
     }
 
     // more battle logic...
