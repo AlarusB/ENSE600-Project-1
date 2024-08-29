@@ -48,11 +48,18 @@ public class Player {
     }
 
     public void takeDamage(int damage) {
-        currentPlayerHP -= damage;
-        if (currentPlayerHP < 0) {
+        if (currentPlayerHP <= 0) {
+            System.out.println("Player is already dead...");
+            return;
+        }
+        // Player dies 
+        if (damage >= currentPlayerHP) {
             currentPlayerHP = 0;
             System.out.println("player dead...");
+            return;
         }
+        
+        currentPlayerHP -= damage;
     }
     
     

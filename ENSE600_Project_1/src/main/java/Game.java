@@ -30,8 +30,10 @@ public class Game {
                     enemy = RandomEnemy();
                     System.out.println("A wild " + enemy.getEnemyName() + " appears!");
                     inBattle = true;
-                } else {
+                } else if (scanner.next().equalsIgnoreCase("no")) {
                     System.exit(0);
+                } else {
+                    System.out.println("Invalid choice!");
                 }
             }
                 
