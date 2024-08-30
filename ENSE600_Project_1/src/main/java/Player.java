@@ -76,11 +76,11 @@ public class Player extends Entity {
         return bonusATK;
     }
 
-    public Potion getAttackPotion() {
+    public Consumable getAttackPotion() {
         return attackPotion;
     }
 
-    public Potion getWeakenPotion() {
+    public Consumable getWeakenPotion() {
         return weakenPotion;
     }
 
