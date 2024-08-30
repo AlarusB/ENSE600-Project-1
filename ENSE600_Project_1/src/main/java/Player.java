@@ -20,6 +20,9 @@ public class Player {
 
     private int baseATK;
     private int playerATK;
+    
+    private Potion attackPotion;
+    private Potion weakenPotion;
 
     private Weapon weapon;
 
@@ -32,6 +35,8 @@ public class Player {
         this.baseATK = baseATK;
         this.weapon = weapon;
         this.bonusATK = 0;
+        this.attackPotion = new Potion("Attack Potion", Potion.PotionType.BUFF, 50);
+        this.weakenPotion = new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10);
         updateStats();
         currentPlayerHP = maxPlayerHP;
     }
@@ -88,6 +93,12 @@ public class Player {
     public int getPlayerATK() { return playerATK; }
     public Weapon getWeapon() { return weapon; }
     public int getBonusATK() { return bonusATK; }
+    public Potion getAttackPotion() { return attackPotion; }
+    public Potion getWeakenPotion() { return weakenPotion; }
+    public boolean hasAttackPotion() { return attackPotion != null; }
+    public boolean hasWeakenPotion() { return weakenPotion != null; }
+
+
     
     public void setPlayerName(String playerName) { this.playerName = playerName; }
     public void setPlayerLevel(double playerLevel) { this.playerLevel = playerLevel; updateStats(); }
@@ -95,4 +106,6 @@ public class Player {
     public void setBaseATK(int baseATK) { this.baseATK = baseATK; updateStats(); }
     public void setWeapon(Weapon weapon) { this.weapon = weapon; updateStats(); }
     public void setBonusATK(int bonusATK) { this.bonusATK = bonusATK; updateStats(); }
+    public void setAttackPotion(Potion attackPotion) { this.attackPotion = attackPotion; updateStats(); }
+    public void setWeakenPotion(Potion weakenPotion) { this.weakenPotion = weakenPotion; updateStats(); }
 }

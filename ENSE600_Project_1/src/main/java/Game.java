@@ -29,6 +29,8 @@ public class Game {
                 String input = scanner.nextLine().trim();
                 if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
                     enemy = RandomEnemy();
+                    player.setAttackPotion(new Potion("Attack Potion", Potion.PotionType.BUFF, 50));
+                    player.setWeakenPotion(new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10));
                     System.out.println("A wild " + enemy.getEnemyName() + " appears!");
                     inBattle = true;
                 } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")) {
@@ -127,22 +129,36 @@ public class Game {
 
         switch (choice) {
             case 1:
-                Potion attackPotion = new Potion("Attack Potion", Potion.PotionType.BUFF, 50);
-                player.applyBonusATK(attackPotion.getPotionEffectValue());
-                System.out.println("Used " + attackPotion.getPotionName() + "! Attack increased by " + attackPotion.getPotionEffectValue() + ".");
+                // Only use potion if player has one
+                if (!player.hasAttackPotion()) {
+                    System.out.println("Already used attack potion!");
+                    break;
+                }
+                player.applyBonusATK(player.getAttackPotion().getPotionEffectValue());
+                System.out.println("Used " + player.getAttackPotion().getPotionName() + "! Attack increased by " + player.getAttackPotion().getPotionEffectValue() + ".");
+                player.setAttackPotion(null);
                 break;
             case 2:
-                Potion weakenPotion = new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10);
-                enemy.applyDefenseReduction(weakenPotion.getPotionEffectValue());
-                System.out.println("Used " + weakenPotion.getPotionName() + "! Enemy weakened by " + weakenPotion.getPotionEffectValue() + ".");
+                // Only use potion if player has one
+                if (!player.hasWeakenPotion()) {
+                    System.out.println("Already used weaken potion!");
+                    break;
+                }
+                enemy.applyDefenseReduction(player.getWeakenPotion().getPotionEffectValue());
+                System.out.println("Used " + player.getWeakenPotion().getPotionName() + "! Enemy weakened by " + player.getWeakenPotion().getPotionEffectValue() + ".");
+                player.setWeakenPotion(null);
                 break;
             case 3:
                 break;
             default:
                 System.out.println("Invalid choice!");
-
         }
-
+        // Damage player after using potion
+        Battle battle = new Battle(player, enemy);
+        if (enemy.getEnemyHP() > 0) {
+            battle.attackPlayer();
+        }
+        
         // more game logic...
     }
 }
