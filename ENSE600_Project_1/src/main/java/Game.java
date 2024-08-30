@@ -155,10 +155,14 @@ public class Game {
                 System.out.println("Invalid choice!");
         }
         // Damage player after using potion
-        Battle battle = new Battle(player, enemy);
-        if (enemy.getHP() > 0) {
-            battle.attackPlayer();
+        if (choice != 3)
+        {
+            Battle battle = new Battle(player, enemy);
+            if (enemy.getHP() > 0) {
+                battle.attackPlayer();
+            }
         }
+
         
         // more game logic...
     }
