@@ -17,14 +17,14 @@ public class Battle {
     }
 
     public void attackEnemy() {
-        int damage = player.getPlayerATK();
+        int damage = player.getATK();
         enemy.takeDamage(damage);
     }
 
     public void attackPlayer() {
-        double damage = enemy.getEnemyATK();
+        double damage = enemy.getATK();
         player.takeDamage(damage);
-        System.out.println(enemy.getEnemyName() + " attacks " + player.getPlayerName() + " for " + damage + " damage!\n");
+        System.out.println(enemy.getName() + " attacks " + player.getName()+ " for " + damage + " damage!\n");
     }
 
     // more battle logic...

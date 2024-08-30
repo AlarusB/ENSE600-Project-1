@@ -9,17 +9,7 @@ import java.io.*;
  *
  * @author alexs
  */
-public class Player {
-
-    private String playerName;
-    private double playerLevel;
-
-    private double baseHP;
-    private double maxPlayerHP;
-    private double currentPlayerHP;
-
-    private int baseATK;
-    private int playerATK;
+public class Player extends Entity{
     
     private Potion attackPotion;
     private Potion weakenPotion;
@@ -28,47 +18,32 @@ public class Player {
 
     private int bonusATK;
 
-    public Player(String playerName, int playerLevel, int baseHP, int baseATK, Weapon weapon) {
-        this.playerName = playerName;
-        this.playerLevel = playerLevel;
-        this.baseHP = baseHP;
-        this.baseATK = baseATK;
+    public Player(String name, int level, int baseHP, int baseATK, Weapon weapon) {
+        super(name, level, baseHP, baseATK);
         this.weapon = weapon;
         this.bonusATK = 0;
         this.attackPotion = new Potion("Attack Potion", Potion.PotionType.BUFF, 50);
         this.weakenPotion = new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10);
         updateStats();
-        currentPlayerHP = maxPlayerHP;
     }
 
     public void applyBonusATK(int bonusATK) {
         this.bonusATK = bonusATK;
         updateStats();
     }
-
-    private void updateStats() {
-        this.playerATK = baseATK + weapon.getWeaponATK() + bonusATK;
-        this.maxPlayerHP = baseHP * (1 + (playerLevel / 100));
-
-    }
-
-    public void takeDamage(double damage) {
-        if (currentPlayerHP <= 0) {
-            System.out.println("Player is already dead...");
-            return;
+    
+    @Override
+    protected void updateStats() {
+        if (weapon != null) {
+            this.setMaxHP(getBaseHP() * (1 + (getLevel() / 100.0)));
+            this.setATK(getBaseATK() + weapon.getWeaponATK() + bonusATK);
+        } else {
+            // Fallback in case weapon is not set
+            this.setMaxHP(getBaseHP() * (1 + (getLevel() / 100.0)));
+            this.setATK(getBaseATK() + bonusATK);
         }
-        // Player dies 
-        if (damage >= currentPlayerHP) {
-            currentPlayerHP = 0;
-            System.out.println("player dead...");
-            return;
-        }
-        
-        currentPlayerHP -= damage;
     }
     
-    
-
     public void saveToFile(String filename) {
         try ( ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(this);
@@ -86,11 +61,7 @@ public class Player {
         }
     }
 
-    public String getPlayerName() { return playerName; }
-    public double getPlayerLevel() { return playerLevel; }
-    public double getMaxPlayerHP() { return maxPlayerHP; }
-    public double getCurrentPlayerHP() { return currentPlayerHP; }
-    public int getPlayerATK() { return playerATK; }
+
     public Weapon getWeapon() { return weapon; }
     public int getBonusATK() { return bonusATK; }
     public Potion getAttackPotion() { return attackPotion; }
@@ -98,12 +69,7 @@ public class Player {
     public boolean hasAttackPotion() { return attackPotion != null; }
     public boolean hasWeakenPotion() { return weakenPotion != null; }
 
-
-    
-    public void setPlayerName(String playerName) { this.playerName = playerName; }
-    public void setPlayerLevel(double playerLevel) { this.playerLevel = playerLevel; updateStats(); }
-    public void setBaseHealth(int baseHP) { this.baseHP = baseHP; updateStats(); }
-    public void setBaseATK(int baseATK) { this.baseATK = baseATK; updateStats(); }
+   
     public void setWeapon(Weapon weapon) { this.weapon = weapon; updateStats(); }
     public void setBonusATK(int bonusATK) { this.bonusATK = bonusATK; updateStats(); }
     public void setAttackPotion(Potion attackPotion) { this.attackPotion = attackPotion; updateStats(); }

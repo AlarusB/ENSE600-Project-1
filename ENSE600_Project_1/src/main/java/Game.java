@@ -31,7 +31,7 @@ public class Game {
                     enemy = RandomEnemy();
                     player.setAttackPotion(new Potion("Attack Potion", Potion.PotionType.BUFF, 50));
                     player.setWeakenPotion(new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10));
-                    System.out.println("A wild " + enemy.getEnemyName() + " appears!");
+                    System.out.println("A wild " + enemy.getName()+ " appears!");
                     inBattle = true;
                 } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")) {
                     System.exit(0);
@@ -40,8 +40,8 @@ public class Game {
                 }
             }
                 
-            System.out.println("playerLevel: " + player.getPlayerLevel() + " playerHP: " + player.getCurrentPlayerHP());
-            System.out.println(enemy.getEnemyName() + "Level: " + enemy.getEnemyLevel() + " " + enemy.getEnemyName() + " HP: " + enemy.getEnemyHP() + "\n");
+            System.out.println("playerLevel: " + player.getLevel()+ " playerHP: " + player.getHP());
+            System.out.println(enemy.getName() + "Level: " + enemy.getLevel() + " " + enemy.getName() + " HP: " + enemy.getHP() + "\n");
             
             System.out.println("1. Fight enemy");
             System.out.println("2. Use potion");
@@ -51,6 +51,7 @@ public class Game {
             System.out.print("Choose an action: ");
 
             int choice = scanner.nextInt();
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -79,24 +80,24 @@ public class Game {
     private void fightEnemy() {
         boolean continueFighting = true;
 
-        while (continueFighting && player.getCurrentPlayerHP() > 0) {
+        while (continueFighting && player.isAlive()) {
             Battle battle = new Battle(player, enemy);
 
-            if (enemy.getEnemyHP() > 0 && player.getCurrentPlayerHP() > 0) {
+            if (enemy.isAlive() && player.isAlive()) {
                 battle.attackEnemy();
-                if (enemy.getEnemyHP() > 0) {
+                if (enemy.isAlive()) {
                     battle.attackPlayer();
                     break;
                 }
             }
 
-            if (enemy.getEnemyHP() <= 0 && player.getCurrentPlayerHP() != 0) {
-                System.out.println("You defeated " + enemy.getEnemyName() + "!");
+            if (!enemy.isAlive() && player.isAlive()) {
+                System.out.println("You defeated " + enemy.getName() + "!");
                 inBattle = false;
                 enemy = RandomEnemy();
                 break;
 
-            } else if (player.getCurrentPlayerHP() <= 0) {
+            } else if (!player.isAlive()) {
                 System.out.println("damn bro.");
                 System.exit(0);
             } else {
@@ -126,7 +127,7 @@ public class Game {
         System.out.println("2. weaken enemy");
         System.out.println("3. back");
         int choice = scanner.nextInt();
-
+        scanner.nextLine();
         switch (choice) {
             case 1:
                 // Only use potion if player has one
@@ -155,7 +156,7 @@ public class Game {
         }
         // Damage player after using potion
         Battle battle = new Battle(player, enemy);
-        if (enemy.getEnemyHP() > 0) {
+        if (enemy.getHP() > 0) {
             battle.attackPlayer();
         }
         

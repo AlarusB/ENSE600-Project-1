@@ -1,0 +1,81 @@
+/*
+ * Copyright 2024 Abdul B
+ * https://github.com/AlarusB/
+ */
+
+/**
+ *
+ * @author abdul
+ */
+public abstract class Entity {
+    private String name;
+    private int level;
+    
+    private double baseHP;
+    private double maxHP;
+    private double HP;
+
+    private int baseATK;
+    private int ATK;
+
+    public Entity(String name, int level, int baseHP, int baseATK) {
+        this.name = name;
+        this.level = level;
+        this.baseHP = baseHP;
+        this.baseATK = baseATK;
+        updateStats();
+        this.HP = this.maxHP;
+    }
+
+    public void takeDamage(double damage) {
+        if (HP <= 0) {
+            System.out.println(getName() + " is already dead...");
+            return;
+        }
+        // Death 
+        if (damage >= HP) {
+            this.setHP(0);
+            System.out.println(getName() + " dead...");
+            return;
+        }
+        
+        this.setHP(this.HP - damage);
+    }
+    
+    protected void updateStats() {
+        this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
+        this.setATK(getBaseATK() * (1 + (getLevel() / 10)));
+    }
+    
+    public boolean isAlive() { return this.HP > 0; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getLevel() { return level; }
+    public void setLevel(int level) {
+        this.level = level;
+        updateStats();
+    }
+
+    public double getBaseHP() { return baseHP; }
+    public void setBaseHP(double baseHealth) {
+        this.baseHP = baseHealth;
+        updateStats();
+    }
+
+    public double getMaxHP() { return maxHP; }
+    public void setMaxHP(double maxHP) { this.maxHP = maxHP; }
+
+    public double getHP() { return this.HP; }
+    public void setHP(double HP) { this.HP = Math.max(Math.min(HP, maxHP), 0); }
+
+    public int getBaseATK() { return baseATK; }
+    public void setBaseATK(int baseATK) {
+        this.baseATK = baseATK;
+        updateStats();
+    }
+
+    public int getATK() { return ATK; }
+    public void setATK(int ATK) { this.ATK = ATK;}
+}
