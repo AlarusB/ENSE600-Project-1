@@ -31,9 +31,9 @@ public class Game implements Serializable{
                 String input = scanner.nextLine().trim();
                 if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
                     enemy = RandomEnemy();
-                    player.setAttackPotion(new Potion("Attack Potion", Potion.PotionType.BUFF, 50));
-                    player.setWeakenPotion(new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10));
-                    System.out.println("A wild " + enemy.getName() + " appears!");
+                    player.setAttackPotion(new AttackPotion("Attack Potion", 50));
+                    player.setWeakenPotion(new WeakenPotion("weaken or somthing idk", 10));
+                    System.out.println("A wild " + enemy.getName()+ " appears!");
                     inBattle = true;
                 } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")) {
                     System.exit(0);
@@ -148,8 +148,7 @@ public class Game implements Serializable{
                     System.out.println("Already used attack potion!");
                     break;
                 }
-                player.applyBonusATK(player.getAttackPotion().getPotionEffectValue());
-                System.out.println("Used " + player.getAttackPotion().getPotionName() + "! Attack increased by " + player.getAttackPotion().getPotionEffectValue() + ".");
+                player.getAttackPotion().use(player, player);
                 player.setAttackPotion(null);
                 break;
             case 2:
@@ -158,8 +157,7 @@ public class Game implements Serializable{
                     System.out.println("Already used weaken potion!");
                     break;
                 }
-                enemy.applyDefenseReduction(player.getWeakenPotion().getPotionEffectValue());
-                System.out.println("Used " + player.getWeakenPotion().getPotionName() + "! Enemy weakened by " + player.getWeakenPotion().getPotionEffectValue() + ".");
+                player.getWeakenPotion().use(player, enemy);
                 player.setWeakenPotion(null);
                 break;
             case 3:

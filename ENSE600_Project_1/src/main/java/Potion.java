@@ -1,4 +1,3 @@
-
 import java.io.Serializable;
 
 /*
@@ -10,30 +9,23 @@ import java.io.Serializable;
  *
  * @author alexs
  */
-public class Potion implements Serializable{
-        private static final long serialVersionUID = 1L;
+public abstract class Potion implements Consumable {
+    private static final long serialVersionUID = 1L;
+    private final String name;
 
-    
-    public enum PotionType { BUFF, DEBUFF }
-
-    private String potionName;
-    private PotionType potionType;
-    private int potionEffectValue;
-
-    public Potion(String potionName, PotionType potionType, int potionEffectValue) {
-        this.potionName = potionName;
-        this.potionType = potionType;
-        this.potionEffectValue = potionEffectValue;
+    public Potion(String name) {
+        this.name = name;
     }
-
-    public String getPotionName() { return potionName; }
-    public PotionType getPotionType() { return potionType; }
-    public int getPotionEffectValue() { return potionEffectValue; }
-
-    public void setPotionName(String potionName) { this.potionName = potionName; }
-    public void setPotionType(PotionType potionType) { this.potionType = potionType; }
-    public void setPotionEffectValue(int potionEffectValue) { this.potionEffectValue = potionEffectValue; }
-
+    
+    @Override
+    public boolean use(Entity user, Entity target)
+    {
+        if (user.equals(target)) {
+            System.out.println(user.getName() + "used " + getName() + "!");
+        } else {
+            System.out.println(user.getName() + "used " + getName() + " on " + target.getName());
+        }
+        return true;
+    }
+    @Override public String getName() { return name; }
 }
-
-

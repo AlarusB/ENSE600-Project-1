@@ -9,11 +9,10 @@ import java.io.*;
  *
  * @author alexs
  */
-public class Player extends Entity implements Serializable {
+public class Player extends Entity {
     private static final long serialVersionUID = 1L;
-
-    private Potion attackPotion;
-    private Potion weakenPotion;
+    private Consumable attackPotion;
+    private Consumable weakenPotion;
 
     private Weapon weapon;
 
@@ -23,8 +22,8 @@ public class Player extends Entity implements Serializable {
         super(name, level, baseHP, baseATK);
         this.weapon = weapon;
         this.bonusATK = 0;
-        this.attackPotion = new Potion("Attack Potion", Potion.PotionType.BUFF, 50);
-        this.weakenPotion = new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10);
+        this.attackPotion = new AttackPotion("Attack Potion", 50);
+        this.weakenPotion = new WeakenPotion("weaken or somthing idk", 10);
         updateStats();
     }
 

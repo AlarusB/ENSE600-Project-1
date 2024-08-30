@@ -1,5 +1,6 @@
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /*
  * Copyright 2024 Abdul B
@@ -45,6 +46,36 @@ public abstract class Entity implements Serializable{
         
         this.setHP(this.HP - damage);
     }
+    
+    // Generated with ChatGPT
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true; // Check for reference equality
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false; // Check for null and type compatibility
+        }
+
+        Entity other = (Entity) obj; // Cast to Entity
+
+        // Check for attribute equality
+        return name.equals(other.name) &&
+               level == other.level &&
+               baseHP == other.baseHP &&
+               baseATK == other.baseATK &&
+               HP == other.HP &&
+               maxHP == other.maxHP &&
+               ATK == other.ATK;
+    }
+    
+    // Generated with ChatGPT
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, level, baseHP, baseATK, HP, maxHP, ATK);
+    }
+
     
     protected void updateStats() {
         this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
