@@ -1,3 +1,6 @@
+
+import java.io.Serializable;
+
 /*
  * Copyright 2024 Abdul B
  * https://github.com/AlarusB/
@@ -7,7 +10,8 @@
  *
  * @author abdul
  */
-public abstract class Entity {
+public abstract class Entity implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String name;
     private int level;
     

@@ -9,8 +9,9 @@ import java.io.*;
  *
  * @author alexs
  */
-public class Player extends Entity{
-    
+public class Player extends Entity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Potion attackPotion;
     private Potion weakenPotion;
 
@@ -31,7 +32,7 @@ public class Player extends Entity{
         this.bonusATK = bonusATK;
         updateStats();
     }
-    
+
     @Override
     protected void updateStats() {
         if (weapon != null) {
@@ -43,35 +44,72 @@ public class Player extends Entity{
             this.setATK(getBaseATK() + bonusATK);
         }
     }
-    
-    public void saveToFile(String filename) {
-        try ( ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+
+    public void saveToFile(String fileName) {
+        try ( ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(this);
-        } catch (IOException e) {
-            System.out.println("Failed to save player data: " + e.getMessage());
+            System.out.println("Player data saved to " + fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public static Player loadFromFile(String filename) {
-        try ( ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+    public static Player loadFromFile(String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("Save file not found! A new game will start.");
+            return null; // or handle this by returning a new player or a specific state
+        }
+
+        try ( ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             return (Player) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Failed to load player data: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
+    public Weapon getWeapon() {
+        return weapon;
+    }
 
-    public Weapon getWeapon() { return weapon; }
-    public int getBonusATK() { return bonusATK; }
-    public Potion getAttackPotion() { return attackPotion; }
-    public Potion getWeakenPotion() { return weakenPotion; }
-    public boolean hasAttackPotion() { return attackPotion != null; }
-    public boolean hasWeakenPotion() { return weakenPotion != null; }
+    public int getBonusATK() {
+        return bonusATK;
+    }
 
-   
-    public void setWeapon(Weapon weapon) { this.weapon = weapon; updateStats(); }
-    public void setBonusATK(int bonusATK) { this.bonusATK = bonusATK; updateStats(); }
-    public void setAttackPotion(Potion attackPotion) { this.attackPotion = attackPotion; updateStats(); }
-    public void setWeakenPotion(Potion weakenPotion) { this.weakenPotion = weakenPotion; updateStats(); }
+    public Potion getAttackPotion() {
+        return attackPotion;
+    }
+
+    public Potion getWeakenPotion() {
+        return weakenPotion;
+    }
+
+    public boolean hasAttackPotion() {
+        return attackPotion != null;
+    }
+
+    public boolean hasWeakenPotion() {
+        return weakenPotion != null;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        updateStats();
+    }
+
+    public void setBonusATK(int bonusATK) {
+        this.bonusATK = bonusATK;
+        updateStats();
+    }
+
+    public void setAttackPotion(Potion attackPotion) {
+        this.attackPotion = attackPotion;
+        updateStats();
+    }
+
+    public void setWeakenPotion(Potion weakenPotion) {
+        this.weakenPotion = weakenPotion;
+        updateStats();
+    }
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  * @author alexs
  */
-public class Enemy extends Entity {
+public class Enemy extends Entity implements Serializable{
     
     private double defenseReduction;
 

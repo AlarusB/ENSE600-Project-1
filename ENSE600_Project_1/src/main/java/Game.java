@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 /*
@@ -9,7 +10,8 @@ import java.util.Scanner;
  *
  * @author alexs
  */
-public class Game {
+public class Game implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     private Player player;
     private Scanner scanner;
@@ -31,7 +33,7 @@ public class Game {
                     enemy = RandomEnemy();
                     player.setAttackPotion(new Potion("Attack Potion", Potion.PotionType.BUFF, 50));
                     player.setWeakenPotion(new Potion("weaken or somthing idk", Potion.PotionType.DEBUFF, 10));
-                    System.out.println("A wild " + enemy.getName()+ " appears!");
+                    System.out.println("A wild " + enemy.getName() + " appears!");
                     inBattle = true;
                 } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")) {
                     System.exit(0);
@@ -39,10 +41,10 @@ public class Game {
                     System.out.println("Invalid choice!");
                 }
             }
-                
-            System.out.println("playerLevel: " + player.getLevel()+ " playerHP: " + player.getHP());
+
+            System.out.println("playerLevel: " + player.getLevel() + " playerHP: " + player.getHP());
             System.out.println(enemy.getName() + "Level: " + enemy.getLevel() + " " + enemy.getName() + " HP: " + enemy.getHP() + "\n");
-            
+
             System.out.println("1. Fight enemy");
             System.out.println("2. Use potion");
             System.out.println("3. Save game");
@@ -61,19 +63,30 @@ public class Game {
                     usePotion();
                     break;
                 case 3:
-                    player.saveToFile("player_data.dat");
+                    saveGame();
                     break;
                 case 4:
-                    Player loadedPlayer = Player.loadFromFile("player_data.dat");
-                    if (loadedPlayer != null) {
-                        player = loadedPlayer;
-                    }
+                    loadGame();
                     break;
                 case 5:
                     System.exit(0);
                 default:
                     System.out.println("Invalid choice!");
             }
+        }
+    }
+
+    private void saveGame() {
+        String fileName = "player_data.dat";
+        player.saveToFile(fileName);
+    }
+
+    private void loadGame() {
+        String fileName = "player_data.dat";
+        Player loadedPlayer = Player.loadFromFile(fileName);
+        if (loadedPlayer != null) {
+            player = loadedPlayer;
+            System.out.println("Game loaded successfully.");
         }
     }
 
@@ -155,15 +168,13 @@ public class Game {
                 System.out.println("Invalid choice!");
         }
         // Damage player after using potion
-        if (choice != 3)
-        {
+        if (choice != 3) {
             Battle battle = new Battle(player, enemy);
             if (enemy.getHP() > 0) {
                 battle.attackPlayer();
             }
         }
 
-        
         // more game logic...
     }
 }

@@ -1,3 +1,6 @@
+
+import java.io.Serializable;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -7,7 +10,8 @@
  *
  * @author alexs
  */
-public class Weapon {
+public class Weapon implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String weaponName;
     private int weaponATK;
 
