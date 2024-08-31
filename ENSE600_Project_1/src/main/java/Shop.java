@@ -41,7 +41,7 @@ public class Shop {
         
         for (int i = 0; i < potionsForSale.size(); i++) {
             Potion potion = potionsForSale.get(i);
-            System.out.println((i + 1) + ". " + potion.getName() + " - Description:" + potion.getDescription() + " (Cost: " + potion.getCost() + " gold)");
+            System.out.println((weaponsForSale.size() + i + 1) + ". " + potion.getName() + " - Description:" + potion.getDescription() + " (Cost: " + potion.getCost() + " gold)");
         }
         
 
@@ -57,8 +57,23 @@ public class Shop {
                 System.out.println("You bought " + selectedWeapon.getWeaponName() + "!");
             } else {
                 System.out.println("Not enough gold!");
-            }
-
+            } 
+        } else if (choice > weaponsForSale.size() && choice <= (weaponsForSale.size() + potionsForSale.size())) {
+            Potion selectedPotion = potionsForSale.get(choice - weaponsForSale.size() - 1);
+            if (player.getGold() >= selectedPotion.getCost()) {
+                if (selectedPotion instanceof WeakenPotion) {
+                    player.setWeakenPotion(selectedPotion);
+                } else if (selectedPotion instanceof AttackPotion) {
+                    player.setAttackPotion(selectedPotion);
+                } else {
+                    System.out.println("Invalid potion!");
+                    return;
+                }
+                player.setGold(player.getGold() - selectedPotion.getCost());
+                System.out.println("You bought " + selectedPotion.getName() + "!");
+            } else {
+                System.out.println("Not enough gold!");
+            }  
         } else if (choice != 0) {
             System.out.println("Invalid choice!");
         }

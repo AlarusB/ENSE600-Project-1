@@ -32,8 +32,6 @@ public class Game implements Serializable {
                 String input = scanner.nextLine().trim();
                 if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
                     enemy = RandomEnemy();
-                    player.setAttackPotion(new AttackPotion("Attack Potion", 50));
-                    player.setWeakenPotion(new WeakenPotion("weaken or somthing idk", 10));
                     System.out.println("A wild " + enemy.getName() + " appears!");
                     inBattle = true;
                 } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")) {
