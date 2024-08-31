@@ -33,7 +33,7 @@ public abstract class Entity implements Serializable {
     }
 
     public void takeDamage(double damage) {
-        if (HP <= 0) {
+        if (!isAlive()) {
             System.out.println(getName() + " is already dead...");
             return;
         }
@@ -45,6 +45,16 @@ public abstract class Entity implements Serializable {
         }
 
         this.setHP(this.HP - damage);
+    }
+    
+    public boolean heal(double amount) {
+        if (!isAlive()) {
+            System.out.println(getName() + " cannot be healed because they are dead.");
+            return false;
+        }
+
+        this.setHP(this.getHP() + amount);
+        return true;
     }
 
     // Generated with ChatGPT
