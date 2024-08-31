@@ -12,7 +12,7 @@ import java.io.*;
 public class Player extends Entity {
 
     private static final long serialVersionUID = 1L;
-    
+
     private final int maxPotions = 3;
     private Potion[] potionBag;
 
@@ -23,8 +23,9 @@ public class Player extends Entity {
 
     private int bonusATK;
 
+    // Constructor for initializing the player's attributes
     public Player(String name, int level, int baseHP, int baseATK, Weapon weapon, int gold, double xp) {
-        super(name, level, baseHP, baseATK);
+        super(name, level, baseHP, baseATK); // Call the superclass (Entity) constructor
         this.weapon = weapon;
         this.bonusATK = 0;
         this.potionBag = new Potion[maxPotions];
@@ -33,12 +34,13 @@ public class Player extends Entity {
         updateStats();
     }
 
+    // Method to apply a bonus attack to the player
     public void applyBonusATK(int bonusATK) {
         this.bonusATK = bonusATK;
         updateStats();
     }
 
-    @Override // Update MaxHP and ATK
+    @Override // Update MaxHP and ATK based on the player's level, weapon, and bonuses
     protected void updateStats() {
         if (weapon != null) {
             this.setMaxHP(getBaseHP() * (1 + (getLevel() / 100.0)));
@@ -50,18 +52,21 @@ public class Player extends Entity {
         }
     }
 
+    // Method to calculate the XP required for the next level
     public int getXPForNextLevel() {
-        return (int) Math.pow(getLevel(), 2) * 100; // XP required for the next level
+        return (int) Math.pow(getLevel(), 2) * 100;
     }
 
+    // Method to check if the player has enough XP to level up
     private void checkLevelUp() {
         while (this.xp >= getXPForNextLevel()) {
-            this.xp -= getXPForNextLevel();
-            setLevel(getLevel() + 1);
+            this.xp -= getXPForNextLevel(); // Deduct XP required for level up
+            setLevel(getLevel() + 1); // Increase the player's level
             System.out.println("Congratulations! You've leveled up to Level " + getLevel() + "!");
         }
     }
 
+    // Method to save the player's data to a file
     public void saveToFile(String fileName) {
         try ( ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(this);
@@ -71,30 +76,33 @@ public class Player extends Entity {
         }
     }
 
+    // Method to load the player's data from a file
     public static Player loadFromFile(String fileName) {
         File file = new File(fileName);
         if (!file.exists()) {
             System.out.println("Save file not found! A new game will start.");
-            return null; // or handle this by returning a new player or a specific state
+            return null; // Return null if save file is not found
         }
 
         try ( ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (Player) ois.readObject();
+            return (Player) ois.readObject(); // Return the player object from the file
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return null; // Return null if an error occurs during loading
         }
     }
 
+    // Getter for the player's weapon
     public Weapon getWeapon() {
         return weapon;
     }
 
+    // Getter for the player's bonus attack
     public int getBonusATK() {
         return bonusATK;
     }
-    
-    // Retrieves a potion from potion bag
+
+    // Retrieves a potion from the potion bag by index
     public Potion getPotion(int index) {
         if (index < 1 || index > maxPotions || potionBag[index - 1] == null) {
             System.out.println("Failed to find a potion!");
@@ -102,12 +110,13 @@ public class Player extends Entity {
         }
         return potionBag[index - 1];
     }
-    
+
+    // Getter for the potion bag's size
     public int getBagSize() {
         return maxPotions;
     }
-    
-    // Adds a potion to potion bag
+
+    // Adds a potion to the potion bag
     public void addToPotionBag(Potion potion) {
         for (int i = 0; i < maxPotions; i++) {
             if (potionBag[i] == null) {
@@ -118,8 +127,8 @@ public class Player extends Entity {
         }
         System.out.println("Potion bag was full! The potion fell to the ground and shattered!");
     }
-    
-    // Adds a potion from potion bag
+
+    // Removes a potion from the potion bag
     public void removePotion(Potion potion) {
         for (int i = 0; i < maxPotions; i++) {
             if (potionBag[i] == potion) {
@@ -130,7 +139,7 @@ public class Player extends Entity {
         System.out.println("Potion not found in the bag.");
     }
 
-    // Lists out potions in the potion bag
+    // Lists out the potions in the potion bag
     public void listPotionBag() {
         for (int i = 0; i < maxPotions; i++) {
             if (potionBag[i] != null) {
@@ -142,34 +151,40 @@ public class Player extends Entity {
         System.out.println("4. Back");
     }
 
-
+    // Setter for the player's weapon
     public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
-        updateStats();
+        updateStats(); // Update stats after changing the weapon
     }
 
+    // Setter for the player's bonus attack
     public void setBonusATK(int bonusATK) {
         this.bonusATK = bonusATK;
-        updateStats();
+        updateStats(); // Update stats after applying the bonus attack
     }
 
+    // Getter for the player's current gold
     public int getGold() {
         return gold;
     }
 
+    // Getter for the player's current experience points
     public double getXp() {
         return xp;
     }
 
+    // Method to add experience points to the player and check for level up
     public void addXP(int amount) {
         this.xp += amount;
-        checkLevelUp();
+        checkLevelUp(); // Check if the player has enough XP to level up
     }
 
+    // Method to add gold to the player's total
     public void addGold(int amount) {
         this.setGold(this.gold + amount);
     }
 
+    // Setter for the player's gold
     public void setGold(int gold) {
         this.gold = gold;
     }

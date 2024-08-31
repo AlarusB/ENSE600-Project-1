@@ -33,7 +33,7 @@ public class Shop {
         player.setGold(player.getGold() - item.getCost());
         System.out.println("You bought " + item.getName() + "!");
     }
-
+    // Display items in the shop.
     public void displayItems(Player player) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n\nWhoa its a shop! You have " + player.getGold() + " gold.");

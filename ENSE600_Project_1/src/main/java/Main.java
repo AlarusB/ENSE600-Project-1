@@ -30,7 +30,7 @@ public class Main implements Serializable{
         Game game = new Game(player);
         game.startGame();
     }
-
+    // Creates a new Player with default stats
     private static Player createNewPlayer() {
         Weapon startingWeapon = new Weapon("Bannana", 10, "A banana.");
         //playerName, playerLevel, baseHP, baseATK, weapon, gold, xp
