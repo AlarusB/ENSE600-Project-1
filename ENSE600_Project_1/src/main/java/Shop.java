@@ -13,67 +13,65 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Shop {
-    private List<Weapon> weaponsForSale;
-    private List<Potion> potionsForSale;
+    private List<Item> itemsForSale;
 
     public Shop() {
-        weaponsForSale = new ArrayList<>();
-        potionsForSale = new ArrayList<>();
+        itemsForSale = new ArrayList<>();
         generateItemsForSale();
     }
 
     private void generateItemsForSale() {
-        weaponsForSale.add(new Weapon("Wooden Club", 30));
-        weaponsForSale.add(new Weapon("Steel Sword", 60));
-        weaponsForSale.add(new Weapon("Laser Sword", 120));
-        potionsForSale.add(new WeakenPotion("Prime Energy", 10));
-        potionsForSale.add(new AttackPotion("Mountain Dew", 50));
+        itemsForSale.add(new Weapon("Wooden Club", 30, "A tough Wooden Club."));
+        itemsForSale.add(new Weapon("Steel Sword", 60, "A sturdy Steel Sword."));
+        itemsForSale.add(new Weapon("Laser Sword", 120, "A pristine Laser Sword, can cut anything in half."));
+        itemsForSale.add(new WeakenPotion("Prime Energy", 10));
+        itemsForSale.add(new AttackPotion("Mountain Dew", 50));
+        itemsForSale.add(new HealingPotion("Water", 100));
+    }
+    
+    public void buyItem(Player player, Item item) {
+        player.setGold(player.getGold() - item.getCost());
+        System.out.println("You bought " + item.getName() + "!");
     }
 
     public void displayItems(Player player) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n\nWhoa its a shop! You have " + player.getGold() + " gold.");
-        System.out.println("Weapons for Sale:");
-        for (int i = 0; i < weaponsForSale.size(); i++) {
-            Weapon weapon = weaponsForSale.get(i);
-            System.out.println((i + 1) + ". " + weapon.getWeaponName() + " - " + weapon.getWeaponATK() + " ATK (Cost: " + (weapon.getWeaponATK() * 10) + " gold)");
-        }
+        System.out.println("Items for Sale:");
         
-        for (int i = 0; i < potionsForSale.size(); i++) {
-            Potion potion = potionsForSale.get(i);
-            System.out.println((weaponsForSale.size() + i + 1) + ". " + potion.getName() + " - Description:" + potion.getDescription() + " (Cost: " + potion.getCost() + " gold)");
+        for (int i = 0; i < itemsForSale.size(); i++) {
+            Item item = itemsForSale.get(i);
+            if (item instanceof Weapon) {
+                Weapon weapon = (Weapon) item;
+                System.out.println((i + 1) + ". " + weapon.getName() +
+                        " - Description: " + weapon.getDescription() +
+                        " ATK: " + weapon.getATK() + " (Cost: " + weapon.getCost() + " gold)");
+            } else {
+                System.out.println((i + 1) + ". " + item.getName() +
+                        " - Description: " + item.getDescription() +
+                        " (Cost: " + item.getCost() + " gold)");
+            }
         }
-        
 
         System.out.println("Enter the number of the item you want to buy, or 0 to exit:");
         int choice = scanner.nextInt();
         scanner.nextLine();
 
-        if (choice > 0 && choice <= weaponsForSale.size()) {
-            Weapon selectedWeapon = weaponsForSale.get(choice - 1);
-            if (player.getGold() >= selectedWeapon.getWeaponATK() * 10) {
-                player.setWeapon(selectedWeapon);
-                player.setGold(player.getGold() - selectedWeapon.getWeaponATK() * 10);
-                System.out.println("You bought " + selectedWeapon.getWeaponName() + "!");
+        if (choice > 0 && choice <= itemsForSale.size()) {
+            Item selectedItem = itemsForSale.get(choice - 1);
+            if (player.getGold() >= selectedItem.getCost()) {
+                if (selectedItem instanceof Weapon) {
+                    player.setWeapon((Weapon) selectedItem);
+                } else if (selectedItem instanceof Potion) {
+                    player.addToPotionBag((Potion) selectedItem);
+                } else {
+                    System.out.println("Invalid item!");
+                    return;
+                }
+                buyItem(player, selectedItem);
             } else {
                 System.out.println("Not enough gold!");
             } 
-        } else if (choice > weaponsForSale.size() && choice <= (weaponsForSale.size() + potionsForSale.size())) {
-            Potion selectedPotion = potionsForSale.get(choice - weaponsForSale.size() - 1);
-            if (player.getGold() >= selectedPotion.getCost()) {
-                if (selectedPotion instanceof WeakenPotion) {
-                    player.setWeakenPotion(selectedPotion);
-                } else if (selectedPotion instanceof AttackPotion) {
-                    player.setAttackPotion(selectedPotion);
-                } else {
-                    System.out.println("Invalid potion!");
-                    return;
-                }
-                player.setGold(player.getGold() - selectedPotion.getCost());
-                System.out.println("You bought " + selectedPotion.getName() + "!");
-            } else {
-                System.out.println("Not enough gold!");
-            }  
         } else if (choice != 0) {
             System.out.println("Invalid choice!");
         }

@@ -8,10 +8,10 @@
  *
  * @author alexs
  */
-public abstract class Potion implements Consumable {
+public abstract class Potion implements Consumable, Item {
     private final String name;
-    private String description;
-    private int cost;
+    private final String description;
+    private final int cost;
 
     public Potion(String name, String description, int cost) {
         this.name = name;

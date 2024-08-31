@@ -31,7 +31,8 @@ public abstract class Entity implements Serializable {
         updateStats();
         this.HP = this.maxHP;
     }
-
+    
+    // Damages Entity
     public void takeDamage(double damage) {
         if (!isAlive()) {
             System.out.println(getName() + " is already dead...");
@@ -47,6 +48,7 @@ public abstract class Entity implements Serializable {
         this.setHP(this.HP - damage);
     }
     
+    // Heals Entity
     public boolean heal(double amount) {
         if (!isAlive()) {
             System.out.println(getName() + " cannot be healed because they are dead.");
@@ -86,7 +88,6 @@ public abstract class Entity implements Serializable {
         return Objects.hash(name, level, baseHP, baseATK, HP, maxHP, ATK);
     }
 
-    
     protected void updateStats() {
         this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
         this.setATK(getBaseATK() * (1 + (getLevel() / 40)));

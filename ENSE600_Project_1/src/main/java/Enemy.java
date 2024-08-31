@@ -23,13 +23,13 @@ public class Enemy extends Entity implements Serializable{
         this.defenseReduction = reduction;
     }
     
-    @Override
+    @Override // Damage enemy, announce player victorious
     public void takeDamage(double damage) {
         double totaldmg = (damage + (damage * (defenseReduction/100)));
         setHP(getHP() - totaldmg);
         System.out.println("Player attacks " + getName() + " for " + totaldmg + " damage!");
 
-        if (getHP() == 0) {
+        if (!isAlive()) {
             System.out.println("winner!!!");
         }
     }
@@ -38,7 +38,7 @@ public class Enemy extends Entity implements Serializable{
         return getLevel() * 10;
     }
 
-    //calculate gold drop
+    // Calculate gold drop
     public double dropGold() {
         return getLevel() * 5;
     }

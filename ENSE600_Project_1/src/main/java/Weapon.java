@@ -10,22 +10,24 @@ import java.io.Serializable;
  *
  * @author alexs
  */
-public class Weapon implements Serializable{
+public class Weapon implements Serializable, Item{
     private static final long serialVersionUID = 1L;
-    private String weaponName;
-    private int weaponATK;
+    private final String name;
+    private final String description;
+    private final int cost;
+    private final int ATK;
 
-    public Weapon(String weaponName, int weaponATK) {
-        this.weaponName = weaponName;
-        this.weaponATK = weaponATK;
+    public Weapon(String name, int ATK, String description) {
+        this.name = name;
+        this.ATK = ATK;
+        this.cost = ATK * 10;
+        this.description = description;
     }
 
-    public String getWeaponName() { return weaponName; }
-    public int getWeaponATK() { return weaponATK; }
-
-    public void setWeaponName(String weaponName) { this.weaponName = weaponName; }
-    public void setWeaponATK(int weaponATK) { this.weaponATK = weaponATK; }
-
+    @Override public String getName() { return name; }
+    @Override public int getCost() { return cost; }
+    @Override public String getDescription() { return description; }
+    public int getATK() { return ATK; }
 }
 
 

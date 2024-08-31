@@ -7,6 +7,8 @@
  *
  * @author abdul
  */
-public interface Consumable {
-    public boolean use(Entity user, Entity target);
+public interface Item {
+    String getName();
+    String getDescription();
+    int getCost();
 }

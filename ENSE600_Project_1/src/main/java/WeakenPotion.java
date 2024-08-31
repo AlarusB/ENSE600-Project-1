@@ -15,10 +15,10 @@ public class WeakenPotion extends Potion {
         this.defenseReduction = defenseReduction;
     }
     
-    @Override
+    @Override // Reduces am enemies defense
     public boolean use(Entity user, Entity target) {
         if (!(target instanceof Enemy)) {
-            System.out.println("Cannot use attack potion on non-player target.");
+            System.out.println("Cannot use weaken potion on non-player target.");
             return false;
         }
 

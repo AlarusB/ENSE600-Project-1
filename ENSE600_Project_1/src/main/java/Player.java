@@ -12,8 +12,9 @@ import java.io.*;
 public class Player extends Entity {
 
     private static final long serialVersionUID = 1L;
-    private Consumable attackPotion;
-    private Consumable weakenPotion;
+    
+    private final int maxPotions = 3;
+    private Potion[] potionBag;
 
     private int gold;
     private double xp;
@@ -26,8 +27,7 @@ public class Player extends Entity {
         super(name, level, baseHP, baseATK);
         this.weapon = weapon;
         this.bonusATK = 0;
-        this.attackPotion = new AttackPotion("Attack Potion", 50);
-        this.weakenPotion = new WeakenPotion("weaken or somthing idk", 10);
+        this.potionBag = new Potion[maxPotions];
         this.gold = 0;
         this.xp = 0;
         updateStats();
@@ -38,11 +38,11 @@ public class Player extends Entity {
         updateStats();
     }
 
-    @Override
+    @Override // Update MaxHP and ATK
     protected void updateStats() {
         if (weapon != null) {
             this.setMaxHP(getBaseHP() * (1 + (getLevel() / 100.0)));
-            this.setATK(getBaseATK() + weapon.getWeaponATK() + bonusATK + (getBaseATK() * (1 + (getLevel() / 10))));
+            this.setATK(getBaseATK() + weapon.getATK() + bonusATK + (getBaseATK() * (1 + (getLevel() / 10))));
         } else {
             // Fallback in case weapon is not set
             this.setMaxHP(getBaseHP() * (1 + (getLevel() / 100.0)));
@@ -93,22 +93,55 @@ public class Player extends Entity {
     public int getBonusATK() {
         return bonusATK;
     }
-
-    public Consumable getAttackPotion() {
-        return attackPotion;
+    
+    // Retrieves a potion from potion bag
+    public Potion getPotion(int index) {
+        if (index < 1 || index > maxPotions || potionBag[index - 1] == null) {
+            System.out.println("Failed to find a potion!");
+            return null;
+        }
+        return potionBag[index - 1];
+    }
+    
+    public int getBagSize() {
+        return maxPotions;
+    }
+    
+    // Adds a potion to potion bag
+    public void addToPotionBag(Potion potion) {
+        for (int i = 0; i < maxPotions; i++) {
+            if (potionBag[i] == null) {
+                potionBag[i] = potion;
+                System.out.println(potion.getName() + " was added to the potion bag.");
+                return;
+            }
+        }
+        System.out.println("Potion bag was full! The potion fell to the ground and shattered!");
+    }
+    
+    // Adds a potion from potion bag
+    public void removePotion(Potion potion) {
+        for (int i = 0; i < maxPotions; i++) {
+            if (potionBag[i] == potion) {
+                potionBag[i] = null;
+                return;
+            }
+        }
+        System.out.println("Potion not found in the bag.");
     }
 
-    public Consumable getWeakenPotion() {
-        return weakenPotion;
+    // Lists out potions in the potion bag
+    public void listPotionBag() {
+        for (int i = 0; i < maxPotions; i++) {
+            if (potionBag[i] != null) {
+                System.out.println((i + 1) + ". " + potionBag[i].getName());
+            } else {
+                System.out.println((i + 1) + ". Empty");
+            }
+        }
+        System.out.println("4. Back");
     }
 
-    public boolean hasAttackPotion() {
-        return attackPotion != null;
-    }
-
-    public boolean hasWeakenPotion() {
-        return weakenPotion != null;
-    }
 
     public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
@@ -117,16 +150,6 @@ public class Player extends Entity {
 
     public void setBonusATK(int bonusATK) {
         this.bonusATK = bonusATK;
-        updateStats();
-    }
-
-    public void setAttackPotion(Potion attackPotion) {
-        this.attackPotion = attackPotion;
-        updateStats();
-    }
-
-    public void setWeakenPotion(Potion weakenPotion) {
-        this.weakenPotion = weakenPotion;
         updateStats();
     }
 

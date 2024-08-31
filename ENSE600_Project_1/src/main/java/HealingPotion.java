@@ -11,7 +11,7 @@ public class HealingPotion extends Potion {
     private final double healAmount;
     
     public HealingPotion(String name, int healAmount) {
-        super(name, "Heals the user's HP by " + healAmount + " points.", healAmount*5);
+        super(name, "Heals the user's HP by " + healAmount + " points.", healAmount/2);
         this.healAmount = healAmount;
     }
     

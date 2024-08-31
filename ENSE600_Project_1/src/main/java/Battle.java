@@ -24,9 +24,8 @@ public class Battle {
     public void attackPlayer() {
         double damage = enemy.getATK();
         player.takeDamage(damage);
-        System.out.println(enemy.getName() + " attacks " + player.getName()+ " for " + damage + " damage!\n");
+        System.out.println(enemy.getName() + " attacks " + player.getName() +
+                " for " + damage + " damage!\n");
     }
-
-    // more battle logic...
 }
 

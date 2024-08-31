@@ -24,7 +24,7 @@ public class Game implements Serializable {
     }
 
     Enemy enemy = RandomEnemy();
-
+    // Start the game loop
     public void startGame() {
         while (true) {
             while (inBattle == false) {
@@ -74,12 +74,13 @@ public class Game implements Serializable {
             }
         }
     }
-
+    
+    // Save the game to file
     private void saveGame() {
         String fileName = "player_data.dat";
         player.saveToFile(fileName);
     }
-
+    // Load the game from file
     private void loadGame() {
         String fileName = "player_data.dat";
         Player loadedPlayer = Player.loadFromFile(fileName);
@@ -88,7 +89,8 @@ public class Game implements Serializable {
             System.out.println("Game loaded successfully.");
         }
     }
-
+    
+    // Fight enemy
     private void fightEnemy() {
         boolean continueFighting = true;
 
@@ -126,13 +128,14 @@ public class Game implements Serializable {
             }
         }
     }
-
+    
+    // Spawn in a random enemy to fight
     private Enemy RandomEnemy() {
         int enemyType = (int) (Math.random() * 3);
         int randomLevel = 1 + (int) (Math.random() * 50);
         switch (enemyType) {
             case 0:
-                return new Enemy("Goblin", randomLevel, 50, 10);// enemyName, enemyLevel, baseHP, baseATK
+                return new Enemy("Goblin", randomLevel, 50, 10);
             case 1:
                 return new Enemy("Orc", randomLevel, 80, 15);
             case 2:
@@ -142,45 +145,30 @@ public class Game implements Serializable {
 
         }
     }
-
+    
+    // Player selects a potion then uses it
     private void usePotion() {
-        System.out.println("1. buff atk");
-        System.out.println("2. weaken enemy");
-        System.out.println("3. back");
+        player.listPotionBag();
         int choice = scanner.nextInt();
         scanner.nextLine();
-        switch (choice) {
-            case 1:
-                // Only use potion if player has one
-                if (!player.hasAttackPotion()) {
-                    System.out.println("Already used attack potion!");
-                    break;
-                }
-                player.getAttackPotion().use(player, player);
-                player.setAttackPotion(null);
-                break;
-            case 2:
-                // Only use potion if player has one
-                if (!player.hasWeakenPotion()) {
-                    System.out.println("Already used weaken potion!");
-                    break;
-                }
-                player.getWeakenPotion().use(player, enemy);
-                player.setWeakenPotion(null);
-                break;
-            case 3:
-                break;
-            default:
-                System.out.println("Invalid choice!");
+        Potion potion = player.getPotion(choice);
+        if (potion != null)
+        {
+            if (potion instanceof AttackPotion || potion instanceof HealingPotion) {
+                // Use on self
+                potion.use(player, player);
+            } else if (potion instanceof WeakenPotion) {
+                // Use on enemy
+                potion.use(player, enemy);
+            }
+            player.removePotion(potion);
         }
         // Damage player after using potion
-        if (choice != 3) {
+        if (choice != player.getBagSize()) {
             Battle battle = new Battle(player, enemy);
             if (enemy.getHP() > 0) {
                 battle.attackPlayer();
             }
         }
-
-        // more game logic...
     }
 }
