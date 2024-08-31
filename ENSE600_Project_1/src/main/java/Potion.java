@@ -1,4 +1,3 @@
-import java.io.Serializable;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -10,7 +9,6 @@ import java.io.Serializable;
  * @author alexs
  */
 public abstract class Potion implements Consumable {
-    private static final long serialVersionUID = 1L;
     private final String name;
 
     public Potion(String name) {

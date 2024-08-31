@@ -34,12 +34,12 @@ public class Enemy extends Entity implements Serializable{
         }
     }
     
-    public int dropXP() {
+    public double dropXP() {
         return getLevel() * 10;
     }
 
     //calculate gold drop
-    public int dropGold() {
+    public double dropGold() {
         return getLevel() * 5;
     }
 

@@ -107,10 +107,10 @@ public class Game implements Serializable {
 
             if (!enemy.isAlive() && player.isAlive()) {
                 System.out.println("You defeated " + enemy.getName() + "!");
-                int xp = enemy.dropXP();
-                int gold = enemy.dropGold();
-                player.addXP(xp);
-                player.addGold(gold);
+                double xp = enemy.dropXP();
+                double gold = enemy.dropGold();
+                player.addXP((int) xp);
+                player.addGold((int) gold);
                 System.out.println("You gained " + xp + " XP and " + gold + " gold.");
                 if (Shop.encounterShop()) {
                     Shop shop = new Shop();

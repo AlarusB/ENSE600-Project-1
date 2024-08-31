@@ -17,7 +17,7 @@ public class Battle {
     }
 
     public void attackEnemy() {
-        int damage = player.getATK();
+        double damage = player.getATK();
         enemy.takeDamage(damage);
     }
 

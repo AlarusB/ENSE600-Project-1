@@ -42,11 +42,23 @@ public class Player extends Entity {
     protected void updateStats() {
         if (weapon != null) {
             this.setMaxHP(getBaseHP() * (1 + (getLevel() / 100.0)));
-            this.setATK(getBaseATK() + weapon.getWeaponATK() + bonusATK);
+            this.setATK(getBaseATK() + weapon.getWeaponATK() + bonusATK + (getBaseATK() * (1 + (getLevel() / 10))));
         } else {
             // Fallback in case weapon is not set
             this.setMaxHP(getBaseHP() * (1 + (getLevel() / 100.0)));
-            this.setATK(getBaseATK() + bonusATK);
+            this.setATK(getBaseATK() + bonusATK + (getBaseATK() * (1 + (getLevel() / 10))));
+        }
+    }
+
+    public int getXPForNextLevel() {
+        return (int) Math.pow(getLevel(), 2) * 100; // XP required for the next level
+    }
+
+    private void checkLevelUp() {
+        while (this.xp >= getXPForNextLevel()) {
+            this.xp -= getXPForNextLevel();
+            setLevel(getLevel() + 1);
+            System.out.println("Congratulations! You've leveled up to Level " + getLevel() + "!");
         }
     }
 
@@ -128,6 +140,7 @@ public class Player extends Entity {
 
     public void addXP(int amount) {
         this.xp += amount;
+        checkLevelUp();
     }
 
     public void addGold(int amount) {

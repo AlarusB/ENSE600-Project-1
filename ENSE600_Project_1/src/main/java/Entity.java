@@ -6,24 +6,24 @@ import java.util.Objects;
  * Copyright 2024 Abdul B
  * https://github.com/AlarusB/
  */
-
 /**
  *
  * @author abdul
  */
-public abstract class Entity implements Serializable{
+public abstract class Entity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private String name;
-    private int level;
-    
+    private double level;
+
     private double baseHP;
     private double maxHP;
     private double HP;
 
     private int baseATK;
-    private int ATK;
+    private double ATK;
 
-    public Entity(String name, int level, int baseHP, int baseATK) {
+    public Entity(String name, double level, int baseHP, int baseATK) {
         this.name = name;
         this.level = level;
         this.baseHP = baseHP;
@@ -43,10 +43,10 @@ public abstract class Entity implements Serializable{
             System.out.println(getName() + " dead...");
             return;
         }
-        
+
         this.setHP(this.HP - damage);
     }
-    
+
     // Generated with ChatGPT
     @Override
     public boolean equals(Object obj) {
@@ -61,56 +61,86 @@ public abstract class Entity implements Serializable{
         Entity other = (Entity) obj; // Cast to Entity
 
         // Check for attribute equality
-        return name.equals(other.name) &&
-               level == other.level &&
-               baseHP == other.baseHP &&
-               baseATK == other.baseATK &&
-               HP == other.HP &&
-               maxHP == other.maxHP &&
-               ATK == other.ATK;
+        return name.equals(other.name)
+                && level == other.level
+                && baseHP == other.baseHP
+                && baseATK == other.baseATK
+                && HP == other.HP
+                && maxHP == other.maxHP
+                && ATK == other.ATK;
     }
-    
+
     // Generated with ChatGPT
     @Override
     public int hashCode() {
         return Objects.hash(name, level, baseHP, baseATK, HP, maxHP, ATK);
     }
 
-    
     protected void updateStats() {
         this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
         this.setATK(getBaseATK() * (1 + (getLevel() / 40)));
     }
     
-    public boolean isAlive() { return this.HP > 0; }
-    
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public boolean isAlive() {
+        return this.HP > 0;
+    }
 
-    public int getLevel() { return level; }
-    public void setLevel(int level) {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getLevel() {
+        return level;
+    }
+
+    public void setLevel(double level) {
         this.level = level;
         updateStats();
     }
 
-    public double getBaseHP() { return baseHP; }
+    public double getBaseHP() {
+        return baseHP;
+    }
+
     public void setBaseHP(double baseHealth) {
         this.baseHP = baseHealth;
         updateStats();
     }
 
-    public double getMaxHP() { return maxHP; }
-    public void setMaxHP(double maxHP) { this.maxHP = maxHP; }
+    public double getMaxHP() {
+        return maxHP;
+    }
 
-    public double getHP() { return this.HP; }
-    public void setHP(double HP) { this.HP = Math.max(Math.min(HP, maxHP), 0); }
+    public void setMaxHP(double maxHP) {
+        this.maxHP = maxHP;
+    }
 
-    public int getBaseATK() { return baseATK; }
+    public double getHP() {
+        return this.HP;
+    }
+
+    public void setHP(double HP) {
+        this.HP = Math.max(Math.min(HP, maxHP), 0);
+    }
+
+    public int getBaseATK() {
+        return baseATK;
+    }
+
     public void setBaseATK(int baseATK) {
         this.baseATK = baseATK;
         updateStats();
     }
 
-    public int getATK() { return ATK; }
-    public void setATK(int ATK) { this.ATK = ATK;}
+    public double getATK() {
+        return ATK;
+    }
+
+    public void setATK(double ATK) {
+        this.ATK = ATK;
+    }
 }
