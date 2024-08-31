@@ -76,6 +76,7 @@ public abstract class Entity implements Serializable {
         return Objects.hash(name, level, baseHP, baseATK, HP, maxHP, ATK);
     }
 
+    
     protected void updateStats() {
         this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
         this.setATK(getBaseATK() * (1 + (getLevel() / 40)));
