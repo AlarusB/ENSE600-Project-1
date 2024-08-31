@@ -33,6 +33,7 @@ public class Main implements Serializable{
 
     private static Player createNewPlayer() {
         Weapon startingWeapon = new Weapon("bannana", 10);
-        return new Player("Guy", 2, 1000, 20, startingWeapon); //playerName, playerLevel, baseHP, baseATK, weapon
+        //playerName, playerLevel, baseHP, baseATK, weapon, gold, xp
+        return new Player("Guy", 2, 1000, 20, startingWeapon, 0, 0.0); 
     }
 }

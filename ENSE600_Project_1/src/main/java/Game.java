@@ -10,7 +10,8 @@ import java.util.Scanner;
  *
  * @author alexs
  */
-public class Game implements Serializable{
+public class Game implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private Player player;
@@ -33,7 +34,7 @@ public class Game implements Serializable{
                     enemy = RandomEnemy();
                     player.setAttackPotion(new AttackPotion("Attack Potion", 50));
                     player.setWeakenPotion(new WeakenPotion("weaken or somthing idk", 10));
-                    System.out.println("A wild " + enemy.getName()+ " appears!");
+                    System.out.println("A wild " + enemy.getName() + " appears!");
                     inBattle = true;
                 } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")) {
                     System.exit(0);
@@ -106,10 +107,19 @@ public class Game implements Serializable{
 
             if (!enemy.isAlive() && player.isAlive()) {
                 System.out.println("You defeated " + enemy.getName() + "!");
+                int xp = enemy.dropXP();
+                int gold = enemy.dropGold();
+                player.addXP(xp);
+                player.addGold(gold);
+                System.out.println("You gained " + xp + " XP and " + gold + " gold.");
+                if (Shop.encounterShop()) {
+                    Shop shop = new Shop();
+                    shop.displayItems(player);
+
+                }
                 inBattle = false;
                 enemy = RandomEnemy();
                 break;
-
             } else if (!player.isAlive()) {
                 System.out.println("damn bro.");
                 System.exit(0);

@@ -39,6 +39,15 @@ public class Enemy extends Entity implements Serializable{
             System.out.println("winner!!!");
         }
     }
+    
+    public int dropXP() {
+        return getLevel() * 10;
+    }
+
+    //calculate gold drop
+    public int dropGold() {
+        return getLevel() * 5;
+    }
 
     public double getDefenseReduction() { return defenseReduction; }
     public void setDefenseReduction(double defenseReduction) { this.defenseReduction = defenseReduction; }

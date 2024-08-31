@@ -10,20 +10,26 @@ import java.io.*;
  * @author alexs
  */
 public class Player extends Entity {
+
     private static final long serialVersionUID = 1L;
     private Consumable attackPotion;
     private Consumable weakenPotion;
+
+    private int gold;
+    private double xp;
 
     private Weapon weapon;
 
     private int bonusATK;
 
-    public Player(String name, int level, int baseHP, int baseATK, Weapon weapon) {
+    public Player(String name, int level, int baseHP, int baseATK, Weapon weapon, int gold, double xp) {
         super(name, level, baseHP, baseATK);
         this.weapon = weapon;
         this.bonusATK = 0;
         this.attackPotion = new AttackPotion("Attack Potion", 50);
         this.weakenPotion = new WeakenPotion("weaken or somthing idk", 10);
+        this.gold = 0;
+        this.xp = 0;
         updateStats();
     }
 
@@ -110,5 +116,25 @@ public class Player extends Entity {
     public void setWeakenPotion(Potion weakenPotion) {
         this.weakenPotion = weakenPotion;
         updateStats();
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public double getXp() {
+        return xp;
+    }
+
+    public void addXP(int amount) {
+        this.xp += amount;
+    }
+
+    public void addGold(int amount) {
+        this.setGold(this.gold + amount);
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 }
