@@ -14,11 +14,11 @@ import java.util.Scanner;
 
 public class Shop {
     private List<Weapon> weaponsForSale;
-    //private List<Potion> potionsForSale;
+    private List<Potion> potionsForSale;
 
     public Shop() {
         weaponsForSale = new ArrayList<>();
-        //potionsForSale = new ArrayList<>();
+        potionsForSale = new ArrayList<>();
         generateItemsForSale();
     }
 
@@ -26,6 +26,8 @@ public class Shop {
         weaponsForSale.add(new Weapon("Wooden Club", 30));
         weaponsForSale.add(new Weapon("Steel Sword", 60));
         weaponsForSale.add(new Weapon("Laser Sword", 120));
+        potionsForSale.add(new WeakenPotion("Prime Energy", 10));
+        potionsForSale.add(new AttackPotion("Mountain Dew", 50));
     }
 
     public void displayItems(Player player) {
@@ -35,6 +37,11 @@ public class Shop {
         for (int i = 0; i < weaponsForSale.size(); i++) {
             Weapon weapon = weaponsForSale.get(i);
             System.out.println((i + 1) + ". " + weapon.getWeaponName() + " - " + weapon.getWeaponATK() + " ATK (Cost: " + (weapon.getWeaponATK() * 10) + " gold)");
+        }
+        
+        for (int i = 0; i < potionsForSale.size(); i++) {
+            Potion potion = potionsForSale.get(i);
+            System.out.println((i + 1) + ". " + potion.getName() + " - Description:" + potion.getDescription() + " (Cost: " + potion.getCost() + " gold)");
         }
         
 

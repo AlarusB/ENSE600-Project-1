@@ -11,7 +11,7 @@ public class WeakenPotion extends Potion {
     private final int defenseReduction;
     
     public WeakenPotion(String name, int defenseReduction) {
-        super(name);
+        super(name, "Reduces enemy's defense by " + defenseReduction + " points.", defenseReduction*5);
         this.defenseReduction = defenseReduction;
     }
     

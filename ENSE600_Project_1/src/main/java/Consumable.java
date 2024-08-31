@@ -9,5 +9,7 @@
  */
 public interface Consumable {
     String getName();
+    String getDescription();
+    int getCost();
     public boolean use(Entity user, Entity target);
 }
