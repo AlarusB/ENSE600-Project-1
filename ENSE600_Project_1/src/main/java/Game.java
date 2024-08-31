@@ -52,10 +52,8 @@ public class Game implements Serializable {
             System.out.println("3. Save game");
             System.out.println("4. Load game");
             System.out.println("5. Exit");
-            System.out.print("Choose an action: ");
 
-            int choice = scanner.nextInt(); // Get user choice
-            scanner.nextLine(); // Consume newline character
+            int choice = chooseAction(1,5);
 
             switch (choice) {
                 case 1:
@@ -76,6 +74,25 @@ public class Game implements Serializable {
                     System.out.println("Invalid choice!");
             }
         }
+    }
+    
+    private int chooseAction(int min, int max) {
+        int choice = 0;
+        boolean isValid = false;
+        do {
+            System.out.print("Choose an action: ");
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+                if (choice < min || choice > max) {
+                    System.out.println("Invalid input. Enter an action between range: (" + min + "-" + max + ")");
+                } else {
+                    isValid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid action.");
+            }
+        } while (!isValid);
+        return choice;
     }
 
     // Save the game to a file
@@ -118,7 +135,7 @@ public class Game implements Serializable {
                 player.addGold((int) gold);
                 System.out.println("You gained " + xp + " XP and " + gold + " gold.");
                 if (Shop.encounterShop()) {
-                    Shop shop = new Shop();
+                    Shop shop = new Shop(scanner);
                     shop.displayItems(player);
                 }
                 inBattle = false;
@@ -150,8 +167,7 @@ public class Game implements Serializable {
     // Handle the use of potions
     private void usePotion() {
         player.listPotionBag(); // List available potions
-        int choice = scanner.nextInt(); 
-        scanner.nextLine();
+        int choice = chooseAction(1, player.getBagSize());
         Potion potion = player.getPotion(choice);
         if (potion != null) {
             if (potion instanceof AttackPotion || potion instanceof HealingPotion) {
@@ -165,7 +181,7 @@ public class Game implements Serializable {
         }
 
         // Enemy attacks the player after potion use
-        if (choice != player.getBagSize()) {
+        if (choice != player.getBagSize() + 1) {
             Battle battle = new Battle(player, enemy);
             if (enemy.getHP() > 0) {
                 battle.attackPlayer();
