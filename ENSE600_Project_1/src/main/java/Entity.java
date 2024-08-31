@@ -79,7 +79,7 @@ public abstract class Entity implements Serializable{
     
     protected void updateStats() {
         this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
-        this.setATK(getBaseATK() * (1 + (getLevel() / 10)));
+        this.setATK(getBaseATK() * (1 + (getLevel() / 40)));
     }
     
     public boolean isAlive() { return this.HP > 0; }

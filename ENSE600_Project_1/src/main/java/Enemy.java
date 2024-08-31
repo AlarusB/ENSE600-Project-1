@@ -19,12 +19,6 @@ public class Enemy extends Entity implements Serializable{
         updateStats();
     }
 
-    @Override
-    protected void updateStats() {
-        this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
-        this.setATK(getBaseATK() * (1 + (getLevel() / 40)));
-    }
-    
     public void applyDefenseReduction(int reduction) {
         this.defenseReduction = reduction;
     }
