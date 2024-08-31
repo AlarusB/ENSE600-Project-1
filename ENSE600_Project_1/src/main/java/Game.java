@@ -150,7 +150,7 @@ public class Game implements Serializable {
     // Handle the use of potions
     private void usePotion() {
         player.listPotionBag(); // List available potions
-        int choice = InputHandler.chooseAction(1, player.getBagSize());
+        int choice = InputHandler.chooseAction(1, player.getBagSize() + 1);
         Potion potion = player.getPotion(choice);
         if (potion != null) {
             if (potion instanceof AttackPotion || potion instanceof HealingPotion) {
