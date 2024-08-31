@@ -53,7 +53,7 @@ public class Game implements Serializable {
             System.out.println("4. Load game");
             System.out.println("5. Exit");
 
-            int choice = chooseAction(1,5);
+            int choice = InputHandler.chooseAction(1,5);
 
             switch (choice) {
                 case 1:
@@ -76,24 +76,7 @@ public class Game implements Serializable {
         }
     }
     
-    private int chooseAction(int min, int max) {
-        int choice = 0;
-        boolean isValid = false;
-        do {
-            System.out.print("Choose an action: ");
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-                if (choice < min || choice > max) {
-                    System.out.println("Invalid input. Enter an action between range: (" + min + "-" + max + ")");
-                } else {
-                    isValid = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid action.");
-            }
-        } while (!isValid);
-        return choice;
-    }
+
 
     // Save the game to a file
     private void saveGame() {
@@ -167,7 +150,7 @@ public class Game implements Serializable {
     // Handle the use of potions
     private void usePotion() {
         player.listPotionBag(); // List available potions
-        int choice = chooseAction(1, player.getBagSize());
+        int choice = InputHandler.chooseAction(1, player.getBagSize());
         Potion potion = player.getPotion(choice);
         if (potion != null) {
             if (potion instanceof AttackPotion || potion instanceof HealingPotion) {

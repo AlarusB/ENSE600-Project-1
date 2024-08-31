@@ -31,25 +31,6 @@ public class Shop {
         itemsForSale.add(new HealingPotion("Water", 100));
     }
     
-    private int chooseAction(int min, int max) {
-        int choice = 0;
-        boolean isValid = false;
-        do {
-            System.out.print("Choose an action: ");
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-                if (choice < min || choice > max) {
-                    System.out.println("Invalid input. Enter an action between range: (" + min + "-" + max + ")");
-                } else {
-                    isValid = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid action.");
-            }
-        } while (!isValid);
-        return choice;
-    }
-    
     public void buyItem(Player player, Item item) {
         player.setGold(player.getGold() - item.getCost());
         System.out.println("You bought " + item.getName() + "!");
@@ -75,7 +56,7 @@ public class Shop {
         }
 
         System.out.println("Enter the number of the item you want to buy, or 0 to exit:");
-        int choice = chooseAction(0, itemsForSale.size());
+        int choice = InputHandler.chooseAction(0, itemsForSale.size());
         if (choice > 0 && choice <= itemsForSale.size()) {
             Item selectedItem = itemsForSale.get(choice - 1);
             if (player.getGold() >= selectedItem.getCost()) {
