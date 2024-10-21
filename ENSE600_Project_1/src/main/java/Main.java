@@ -29,6 +29,10 @@ public class Main implements Serializable{
 
         Game game = new Game(player);
         game.startGame();
+        
+        //GameGUI game = new GameGUI(player);
+        //game.setVisible(true);
+        //game.startGame();
     }
     // Creates a new Player with default stats
     private static Player createNewPlayer() {
