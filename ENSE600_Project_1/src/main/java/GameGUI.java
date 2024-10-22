@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 
 import javax.swing.*;
 import java.awt.*;
@@ -5,10 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 /**
  *
  * @author alexs
@@ -20,7 +20,11 @@ public class GameGUI extends JFrame implements Serializable {
     private Player player;
     private Enemy enemy;
     private boolean inBattle;
-    private JLabel statusLabel;
+
+    // Labels for player and enemy health status
+    private JLabel playerHPLabel;
+    private JLabel enemyHPLabel;
+
     private JTextArea gameOutput;
     private JButton fightButton;
     private JButton potionButton;
@@ -40,13 +44,24 @@ public class GameGUI extends JFrame implements Serializable {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // Create health status panel
+        JPanel healthStatusPanel = new JPanel();
+        healthStatusPanel.setLayout(new GridLayout(1, 2));
+
+        // Player and Enemy HP labels
+        playerHPLabel = new JLabel("Player HP: " + player.getHP());
+        enemyHPLabel = new JLabel("Enemy HP: ");
+
+        healthStatusPanel.add(playerHPLabel);
+        healthStatusPanel.add(enemyHPLabel);
+
         // Create the game output area (replaces console output)
         gameOutput = new JTextArea();
         gameOutput.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(gameOutput);
 
-        // Create status label
-        statusLabel = new JLabel("Welcome to the game!");
+        // Auto-scroll to the bottom when new text is added
+        gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
 
         // Create buttons
         fightButton = new JButton("Fight Enemy");
@@ -97,7 +112,7 @@ public class GameGUI extends JFrame implements Serializable {
 
         // Add components to the frame
         setLayout(new BorderLayout());
-        add(statusLabel, BorderLayout.NORTH);
+        add(healthStatusPanel, BorderLayout.NORTH);  // Add health status panel at the top
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -110,8 +125,16 @@ public class GameGUI extends JFrame implements Serializable {
     }
 
     private void updateStatus() {
+        // Update HP labels
+        playerHPLabel.setText("Player HP: " + player.getHP());
+        enemyHPLabel.setText("Enemy HP: " + enemy.getHP());
+
+        // Append to the game output
         gameOutput.append("Player Level: " + player.getLevel() + " Player HP: " + player.getHP() + "\n");
         gameOutput.append(enemy.getName() + " Level: " + enemy.getLevel() + " HP: " + enemy.getHP() + "\n");
+
+        // Scroll to the bottom of the JTextArea
+        gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
     }
 
     // Save the game to a file
@@ -119,6 +142,7 @@ public class GameGUI extends JFrame implements Serializable {
         String fileName = "player_data.dat";
         player.saveToFile(fileName);
         gameOutput.append("Game saved.\n");
+        gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
     }
 
     // Load the game from a file
@@ -131,6 +155,8 @@ public class GameGUI extends JFrame implements Serializable {
         } else {
             gameOutput.append("Failed to load game.\n");
         }
+        gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
+        updateStatus();
     }
 
     // Handle the battle with the enemy
@@ -159,6 +185,9 @@ public class GameGUI extends JFrame implements Serializable {
             gameOutput.append("You died.\n");
             System.exit(0); // Exit game
         }
+
+        // Scroll to the bottom and update the status
+        gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
         updateStatus();
     }
 
@@ -185,6 +214,9 @@ public class GameGUI extends JFrame implements Serializable {
             battle.attackPlayer();
             gameOutput.append("The enemy attacked you after you used a potion!\n");
         }
+
+        // Scroll to the bottom and update the status
+        gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
         updateStatus();
     }
 
