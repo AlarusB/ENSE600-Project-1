@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 /**
  *
  * @author alexs
@@ -21,7 +21,6 @@ public class GameGUI extends JFrame implements Serializable {
     private Enemy enemy;
     private boolean inBattle;
 
-    // Labels for player and enemy health status
     private JLabel playerHPLabel;
     private JLabel enemyHPLabel;
 
@@ -55,7 +54,7 @@ public class GameGUI extends JFrame implements Serializable {
         healthStatusPanel.add(playerHPLabel);
         healthStatusPanel.add(enemyHPLabel);
 
-        // Create the game output area (replaces console output)
+        // Create the game output area
         gameOutput = new JTextArea();
         gameOutput.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(gameOutput);
@@ -112,14 +111,14 @@ public class GameGUI extends JFrame implements Serializable {
 
         // Add components to the frame
         setLayout(new BorderLayout());
-        add(healthStatusPanel, BorderLayout.NORTH);  // Add health status panel at the top
+        add(healthStatusPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
     public void startGame() {
-        inBattle = false; // Reset battle status
-        enemy = RandomEnemy(); // Create an enemy instance
+        inBattle = false; // Reset battle
+        enemy = RandomEnemy();
         gameOutput.append("A wild " + enemy.getName() + " appears!\n");
         updateStatus();
     }
@@ -129,11 +128,9 @@ public class GameGUI extends JFrame implements Serializable {
         playerHPLabel.setText("Player HP: " + player.getHP());
         enemyHPLabel.setText("Enemy HP: " + enemy.getHP());
 
-        // Append to the game output
         gameOutput.append("Player Level: " + player.getLevel() + " Player HP: " + player.getHP() + "\n");
         gameOutput.append(enemy.getName() + " Level: " + enemy.getLevel() + " HP: " + enemy.getHP() + "\n");
 
-        // Scroll to the bottom of the JTextArea
         gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
     }
 
@@ -180,44 +177,24 @@ public class GameGUI extends JFrame implements Serializable {
             player.addGold((int) gold);
             gameOutput.append("You gained " + xp + " XP and " + gold + " gold.\n");
             inBattle = false;
+            if (ShopGUI.encounterShop()) {
+                ShopGUI.showShop(player); // Open the Shop GUI directly
+            }
+
             enemy = RandomEnemy(); // Spawn a new enemy for the next battle
         } else if (!player.isAlive()) {
             gameOutput.append("You died.\n");
             System.exit(0); // Exit game
         }
 
-        // Scroll to the bottom and update the status
         gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
         updateStatus();
     }
 
     // Handle the use of potions
     private void usePotion() {
-        // List available potions (you can replace this with a more advanced GUI for potion selection)
-        player.listPotionBag();
-        // For simplicity, we'll assume potion at index 0 is used
-        Potion potion = player.getPotion(0);
-        if (potion != null) {
-            if (potion instanceof AttackPotion || potion instanceof HealingPotion) {
-                potion.use(player, player);
-                gameOutput.append("You used a potion on yourself.\n");
-            } else if (potion instanceof WeakenPotion) {
-                potion.use(player, enemy);
-                gameOutput.append("You used a potion on the enemy.\n");
-            }
-            player.removePotion(potion); // Remove the used potion from the bag
-        }
-
-        // Enemy attacks the player after potion use
-        if (enemy.getHP() > 0) {
-            Battle battle = new Battle(player, enemy);
-            battle.attackPlayer();
-            gameOutput.append("The enemy attacked you after you used a potion!\n");
-        }
-
-        // Scroll to the bottom and update the status
-        gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
-        updateStatus();
+        // Open the UsePotionGUI to select and use a potion
+        UsePotionGUI.showPotionGUI(player, enemy);
     }
 
     // Spawn a random enemy to fight

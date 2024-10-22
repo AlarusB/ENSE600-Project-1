@@ -188,4 +188,8 @@ public class Player extends Entity {
     public void setGold(int gold) {
         this.gold = gold;
     }
+
+    public Potion[] getPotionBag() {
+        return potionBag;
+    }
 }

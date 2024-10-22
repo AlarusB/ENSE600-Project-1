@@ -1,18 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author alexs
- */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+/**
+ *
+ * @author alexs
+ */
 public class Shop {
+
     private List<Item> itemsForSale;
     private Scanner scanner;
 
@@ -30,28 +31,29 @@ public class Shop {
         itemsForSale.add(new AttackPotion("Mountain Dew", 50));
         itemsForSale.add(new HealingPotion("Water", 100));
     }
-    
+
     public void buyItem(Player player, Item item) {
         player.setGold(player.getGold() - item.getCost());
         System.out.println("You bought " + item.getName() + "!");
     }
+
     // Display items in the shop.
     public void displayItems(Player player) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n\nWhoa its a shop! You have " + player.getGold() + " gold.");
         System.out.println("Items for Sale:");
-        
+
         for (int i = 0; i < itemsForSale.size(); i++) {
             Item item = itemsForSale.get(i);
             if (item instanceof Weapon) {
                 Weapon weapon = (Weapon) item;
-                System.out.println((i + 1) + ". " + weapon.getName() +
-                        " - Description: " + weapon.getDescription() +
-                        " ATK: " + weapon.getATK() + " (Cost: " + weapon.getCost() + " gold)");
+                System.out.println((i + 1) + ". " + weapon.getName()
+                        + " - Description: " + weapon.getDescription()
+                        + " ATK: " + weapon.getATK() + " (Cost: " + weapon.getCost() + " gold)");
             } else {
-                System.out.println((i + 1) + ". " + item.getName() +
-                        " - Description: " + item.getDescription() +
-                        " (Cost: " + item.getCost() + " gold)");
+                System.out.println((i + 1) + ". " + item.getName()
+                        + " - Description: " + item.getDescription()
+                        + " (Cost: " + item.getCost() + " gold)");
             }
         }
 
@@ -71,10 +73,14 @@ public class Shop {
                 buyItem(player, selectedItem);
             } else {
                 System.out.println("Not enough gold!");
-            } 
+            }
         } else if (choice != 0) {
             System.out.println("Invalid choice!");
         }
+    }
+
+    public List<Item> getItemsForSale() {
+        return itemsForSale;
     }
 
     public static boolean encounterShop() {
@@ -82,4 +88,3 @@ public class Shop {
         return random.nextInt(100) < 30; // 30% chance to encounter a shop
     }
 }
-
