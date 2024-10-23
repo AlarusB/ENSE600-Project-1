@@ -132,12 +132,12 @@ public class ShopGUI extends JFrame {
     // Generate a list of items for sale in the shop
     private List<Item> generateItemsForSale() {
         List<Item> items = new ArrayList<>();
-        items.add(new Weapon("Wooden Club", 30, "A tough Wooden Club."));
-        items.add(new Weapon("Steel Sword", 60, "A sturdy Steel Sword."));
-        items.add(new Weapon("Laser Sword", 120, "A pristine Laser Sword, can cut anything in half."));
-        items.add(new WeakenPotion("Prime Energy", 10));
-        items.add(new AttackPotion("Mountain Dew", 50));
-        items.add(new HealingPotion("Water", 100));
+        items.add(ItemFactory.createWeapon(2));
+        items.add(ItemFactory.createWeapon(3));
+        items.add(ItemFactory.createWeapon(4));
+        items.add(ItemFactory.createPotion(5));
+        items.add(ItemFactory.createPotion(6));
+        items.add(ItemFactory.createPotion(7));
         return items;
     }
 

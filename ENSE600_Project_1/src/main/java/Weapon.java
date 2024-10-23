@@ -15,14 +15,22 @@ public class Weapon implements Serializable, Item {
     private final String name;
     private final String description;
     private final int cost;
-    private final int ATK; 
+    private final int ATK;
+    private final int itemId;
 
     // Constructor for initializing the weapon's attributes
-    public Weapon(String name, int ATK, String description) {
+    public Weapon(int itemId, String name, int baseCost, String description, int ATK, int costFactor) {
+        this.itemId = itemId;
         this.name = name;
         this.ATK = ATK; 
-        this.cost = ATK * 10;
+        this.cost = baseCost + ATK * costFactor;
         this.description = description; 
+    }
+    
+    // Implemented method from the Item interface to get the weapon's name
+    @Override
+    public int getId() {
+        return itemId;
     }
 
     // Implemented method from the Item interface to get the weapon's name

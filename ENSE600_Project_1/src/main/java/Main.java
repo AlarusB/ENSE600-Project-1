@@ -13,6 +13,9 @@ import java.io.Serializable;
 
 public class Main implements Serializable{
     public static void main(String[] args) {
+        DBInitializer dbInitializer = new DBInitializer();
+        dbInitializer.setupDatabase();
+        
         String fileName = "player_data.dat";
         Player player;
         
@@ -37,7 +40,8 @@ public class Main implements Serializable{
     }
     // Creates a new Player with default stats
     private static Player createNewPlayer() {
-        Weapon startingWeapon = new Weapon("Bannana", 10, "A banana.");
+        Weapon startingWeapon = ItemFactory.createWeapon(1);
+        
         //playerName, playerLevel, baseHP, baseATK, weapon, gold, xp
         return new Player("Guy", 2, 1000, 20, startingWeapon, 0, 0.0); 
     }

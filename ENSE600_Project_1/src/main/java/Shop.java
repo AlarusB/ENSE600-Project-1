@@ -24,12 +24,12 @@ public class Shop {
     }
 
     private void generateItemsForSale() {
-        itemsForSale.add(new Weapon("Wooden Club", 30, "A tough Wooden Club."));
-        itemsForSale.add(new Weapon("Steel Sword", 60, "A sturdy Steel Sword."));
-        itemsForSale.add(new Weapon("Laser Sword", 120, "A pristine Laser Sword, can cut anything in half."));
-        itemsForSale.add(new WeakenPotion("Prime Energy", 10));
-        itemsForSale.add(new AttackPotion("Mountain Dew", 50));
-        itemsForSale.add(new HealingPotion("Water", 100));
+        itemsForSale.add(ItemFactory.createWeapon(2));
+        itemsForSale.add(ItemFactory.createWeapon(3));
+        itemsForSale.add(ItemFactory.createWeapon(4));
+        itemsForSale.add(ItemFactory.createPotion(5));
+        itemsForSale.add(ItemFactory.createPotion(6));
+        itemsForSale.add(ItemFactory.createPotion(7));
     }
 
     public void buyItem(Player player, Item item) {

@@ -12,8 +12,10 @@ public abstract class Potion implements Consumable, Item {
     private final String name;
     private final String description;
     private final int cost;
+    private final int itemId;
 
-    public Potion(String name, String description, int cost) {
+    public Potion(int itemId, String name, String description, int cost) {
+        this.itemId = itemId;
         this.name = name;
         this.description = description;
         this.cost = cost;
@@ -29,6 +31,7 @@ public abstract class Potion implements Consumable, Item {
         }
         return true;
     }
+    @Override public int getId() { return itemId; }
     @Override public int getCost() { return cost; }
     @Override public String getName() { return name; }
     @Override public String getDescription() { return description; }

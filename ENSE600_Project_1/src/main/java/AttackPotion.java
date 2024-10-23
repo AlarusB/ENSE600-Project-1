@@ -10,8 +10,8 @@
 public class AttackPotion extends Potion {
     private final int attackBoost;
     
-    public AttackPotion(String name, int attackBoost) {
-        super(name, "Increases user's attack by " + attackBoost + " points.", attackBoost);
+    public AttackPotion(int itemId, String name, int baseCost, String description, int attackBoost, double costFactor) {
+        super(itemId, name, description+ " Increases user's attack by " + attackBoost + " points.", (int) (attackBoost*costFactor));
         this.attackBoost = attackBoost;
     }
     
