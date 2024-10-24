@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * @author alexs
  */
 
-public class UsePotionGUI extends JFrame implements Serializable{
+public class UsePotionGUI extends JFrame {
 
     private Player player;
     private Enemy enemy;
@@ -49,7 +48,9 @@ public class UsePotionGUI extends JFrame implements Serializable{
         potionSelection = new JComboBox<>();
         for (int i = 0; i < potionBag.size(); i++) {
             Potion potion = potionBag.get(i);
+            if (potion != null) {
             potionSelection.addItem((i + 1) + ". " + potion.getName());
+            }
         }
 
         mainPanel.add(potionLabel, BorderLayout.NORTH);

@@ -11,7 +11,9 @@ import java.io.Serializable;
  *
  * @author alexs
  */
-public abstract class Potion implements Consumable, Item, Serializable{
+
+public abstract class Potion implements Consumable, Item, Serializable {
+    private static final long serialVersionUID = 1L;
     private final String name;
     private final String description;
     private final int cost;
