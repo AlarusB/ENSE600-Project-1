@@ -1,4 +1,7 @@
 
+import java.io.Serializable;
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -8,7 +11,7 @@
  *
  * @author alexs
  */
-public abstract class Potion implements Consumable, Item {
+public abstract class Potion implements Consumable, Item, Serializable{
     private final String name;
     private final String description;
     private final int cost;

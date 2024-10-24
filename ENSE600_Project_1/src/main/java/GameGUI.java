@@ -129,7 +129,7 @@ public class GameGUI extends JFrame implements Serializable {
         enemyHPLabel.setText("Enemy HP: " + enemy.getHP());
 
         gameOutput.append("Player Level: " + player.getLevel() + " Player HP: " + player.getHP() + "\n");
-        gameOutput.append(enemy.getName() + " Level: " + enemy.getLevel() + " HP: " + enemy.getHP() + "\n");
+        gameOutput.append(enemy.getName() + " Level: " + enemy.getLevel() + " HP: " + enemy.getHP() + "\n\n");
 
         gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
     }
@@ -138,7 +138,7 @@ public class GameGUI extends JFrame implements Serializable {
     private void saveGame() {
         String fileName = "player_data.dat";
         player.saveToFile(fileName);
-        gameOutput.append("Game saved.\n");
+        gameOutput.append("Game saved.\n\n");
         gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
     }
 
@@ -148,9 +148,9 @@ public class GameGUI extends JFrame implements Serializable {
         Player loadedPlayer = Player.loadFromFile(fileName);
         if (loadedPlayer != null) {
             player = loadedPlayer;
-            gameOutput.append("Game loaded successfully.\n");
+            gameOutput.append("Game loaded successfully.\n\n");
         } else {
-            gameOutput.append("Failed to load game.\n");
+            gameOutput.append("Failed to load game.\n\n");
         }
         gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
         updateStatus();
@@ -165,7 +165,7 @@ public class GameGUI extends JFrame implements Serializable {
             gameOutput.append("You attacked the enemy!\n");
             if (enemy.isAlive()) {
                 battle.attackPlayer();
-                gameOutput.append("The enemy attacked you!\n");
+                gameOutput.append("The enemy attacked you!\n\n");
             }
         }
 
@@ -175,7 +175,7 @@ public class GameGUI extends JFrame implements Serializable {
             double gold = enemy.dropGold();
             player.addXP((int) xp);
             player.addGold((int) gold);
-            gameOutput.append("You gained " + xp + " XP and " + gold + " gold.\n");
+            gameOutput.append("You gained " + xp + " XP and " + gold + " gold.\n\n");
             inBattle = false;
             if (ShopGUI.encounterShop()) {
                 ShopGUI.showShop(player); // Open the Shop GUI directly
@@ -183,7 +183,7 @@ public class GameGUI extends JFrame implements Serializable {
 
             enemy = RandomEnemy(); // Spawn a new enemy for the next battle
         } else if (!player.isAlive()) {
-            gameOutput.append("You died.\n");
+            gameOutput.append("You died. :( \n");
             System.exit(0); // Exit game
         }
 

@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @author alexs
  */
 
-public class UsePotionGUI extends JFrame {
+public class UsePotionGUI extends JFrame implements Serializable{
 
     private Player player;
     private Enemy enemy;

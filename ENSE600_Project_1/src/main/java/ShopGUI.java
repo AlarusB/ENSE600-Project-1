@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,7 +17,7 @@ import java.util.Random;
  * @author alexs
  */
 
-public class ShopGUI extends JFrame {
+public class ShopGUI extends JFrame implements Serializable{
 
     private Player player;
     private List<Item> itemsForSale;
