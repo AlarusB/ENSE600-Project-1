@@ -17,7 +17,7 @@ import java.util.Random;
  * @author alexs
  */
 
-public class ShopGUI extends JFrame implements Serializable{
+public class ShopGUI extends JDialog {
 
     private Player player;
     private List<Item> itemsForSale;
@@ -28,7 +28,8 @@ public class ShopGUI extends JFrame implements Serializable{
     private JComboBox<String> itemSelection;
 
     // Constructor to initialize the shop GUI
-    public ShopGUI(Player player) {
+    public ShopGUI(Frame parent, Player player) {
+        super(parent, "Shop", true); // Make this dialog modal
         this.player = player;
         this.itemsForSale = generateItemsForSale(); // Generate items for sale
         initializeUI();
@@ -36,10 +37,8 @@ public class ShopGUI extends JFrame implements Serializable{
 
     // Initialize the user interface components
     private void initializeUI() {
-        setTitle("Shop");
         setSize(500, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null); // Center the dialog
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -143,11 +142,9 @@ public class ShopGUI extends JFrame implements Serializable{
     }
 
     // Display the Shop GUI
-    public static void showShop(Player player) {
-        SwingUtilities.invokeLater(() -> {
-            ShopGUI shopGUI = new ShopGUI(player);
-            shopGUI.setVisible(true);
-        });
+    public static void showShop(Frame parent, Player player) {
+        ShopGUI shopDialog = new ShopGUI(parent, player);
+        shopDialog.setVisible(true);
     }
 
     // Check if the player encounters a shop (30% chance)

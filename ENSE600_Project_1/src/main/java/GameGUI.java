@@ -178,7 +178,7 @@ public class GameGUI extends JFrame implements Serializable {
             gameOutput.append("You gained " + xp + " XP and " + gold + " gold.\n\n");
             inBattle = false;
             if (ShopGUI.encounterShop()) {
-                ShopGUI.showShop(player); // Open the Shop GUI directly
+                ShopGUI.showShop(this, player); // Pass the GameGUI window as the parent
             }
 
             enemy = RandomEnemy(); // Spawn a new enemy for the next battle
