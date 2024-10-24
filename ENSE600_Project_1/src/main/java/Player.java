@@ -23,6 +23,7 @@ public class Player extends Entity {
     private Weapon weapon;
 
     private int bonusATK;
+    private Inventory inventory;
 
     // Constructor for initializing the player's attributes
     public Player(String name, int level, int baseHP, int baseATK, Weapon weapon, int gold, double xp) {
@@ -32,6 +33,7 @@ public class Player extends Entity {
         this.potionBag = new Potion[maxPotions];
         this.gold = 0;
         this.xp = 0;
+        this.inventory = new Inventory();
         updateStats();
     }
 
@@ -135,7 +137,8 @@ public class Player extends Entity {
                 return;
             }
         }
-        System.out.println("Potion bag was full! The potion fell to the ground and shattered!");
+        System.out.println("Potion bag was full! "+potion.getName() +" has been added to inventory!");
+        addItemToInventory(potion.getId());
     }
 
     // Removes a potion from the potion bag
@@ -163,6 +166,11 @@ public class Player extends Entity {
 
     // Setter for the player's weapon
     public void setWeapon(Weapon weapon) {
+        if (this.weapon != null) {
+            // Add the old weapon to the inventory
+            System.out.println(this.weapon.getName() + " was unequipped and added to inventory.");
+            addItemToInventory(this.weapon.getId());
+        }
         this.weapon = weapon;
         updateStats(); // Update stats after changing the weapon
     }
@@ -201,5 +209,28 @@ public class Player extends Entity {
 
     public Potion[] getPotionBag() {
         return potionBag;
+    }
+    
+    // Inventory Methods
+    public void addItemToInventory(int itemId, int amount) {
+        inventory.addItem(itemId, amount);
+        viewInventory();
+    }
+    
+    public void addItemToInventory(int itemId) {
+        addItemToInventory(itemId, 1);
+    }
+
+    public void viewInventory() {
+        inventory.viewInventory();
+    }
+
+    public void removeItemFromInventory(int itemId) {
+        inventory.removeItem(itemId);
+        viewInventory();
+    }
+
+    public boolean itemExistsInInventory(int itemId) {
+        return inventory.itemExists(itemId);
     }
 }

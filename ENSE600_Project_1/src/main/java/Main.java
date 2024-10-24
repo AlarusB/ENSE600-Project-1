@@ -61,6 +61,9 @@ public class Main implements Serializable {
     // Creates a new Player with default stats
     public static Player createNewPlayer() {
         Weapon startingWeapon = ItemFactory.createWeapon(1);
+        // Clear inventory table in database
+        Inventory inv = new Inventory();
+        inv.clear();
 
         // playerName, playerLevel, baseHP, baseATK, weapon, gold, xp
         return new Player("Guy", 2, 1000, 20, startingWeapon, 0, 0.0);
