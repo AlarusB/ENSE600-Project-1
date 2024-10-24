@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,16 +28,20 @@ public class UsePotionGUI extends JFrame {
     public UsePotionGUI(Player player, Enemy enemy) {
         this.player = player;
         this.enemy = enemy;
-        this.potionBag = Arrays.asList(player.getPotionBag()); // Convert Potion[] to List<Potion>
-        
-        // Check if the potionBag is null or empty
-        if (potionBag == null || potionBag.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No potions available in the potion bag!", "No Potions", JOptionPane.WARNING_MESSAGE);
-            dispose(); // Close the window if there are no potions
-            return;
-        }
+        updatePotionBag(); // Initialize potion bag
+        initializeUI();     // Set up the graphical interface
+    }
 
-        initializeUI(); // Set up the graphical interface
+    // Method to update the player's potion bag and sync the potionBag list
+    private void updatePotionBag() {
+        this.potionBag = new ArrayList<>(Arrays.asList(player.getPotionBag())); // Convert Potion[] to List<Potion>
+
+        // Check if the potionBag is null or empty
+        potionBag.removeIf(potion -> potion == null);
+        if (potionBag.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No more potions available!", "No Potions", JOptionPane.WARNING_MESSAGE);
+            dispose(); // Close the window if there are no potions
+        }
     }
 
     // Initialize the user interface components
@@ -53,16 +58,9 @@ public class UsePotionGUI extends JFrame {
         // Label and drop-down for potion selection
         JLabel potionLabel = new JLabel("Select a potion to use:");
         potionSelection = new JComboBox<>();
-        
+
         // Ensure potionBag is not null or empty before populating the combo box
-        if (potionBag != null) {
-            for (int i = 0; i < potionBag.size(); i++) {
-                Potion potion = potionBag.get(i);
-                if (potion != null) {  // Check if the potion is not null
-                    potionSelection.addItem((i + 1) + ". " + potion.getName());
-                }
-            }
-        }
+        populatePotionSelection();
 
         mainPanel.add(potionLabel, BorderLayout.NORTH);
         mainPanel.add(potionSelection, BorderLayout.CENTER);
@@ -94,6 +92,19 @@ public class UsePotionGUI extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    // Method to populate the potion selection dropdown
+    private void populatePotionSelection() {
+        potionSelection.removeAllItems();
+        if (potionBag != null && !potionBag.isEmpty()) {
+            for (int i = 0; i < potionBag.size(); i++) {
+                Potion potion = potionBag.get(i);
+                if (potion != null) {
+                    potionSelection.addItem((i + 1) + ". " + potion.getName());
+                }
+            }
+        }
+    }
+
     // Use the selected potion from the dropdown
     private void useSelectedPotion() {
         int selectedIndex = potionSelection.getSelectedIndex();
@@ -102,13 +113,17 @@ public class UsePotionGUI extends JFrame {
 
             // Apply the potion effect depending on its type
             if (selectedPotion instanceof AttackPotion || selectedPotion instanceof HealingPotion) {
-                selectedPotion.use(player, player); // Use the potion on the player
+                selectedPotion.use(player, player);
             } else if (selectedPotion instanceof WeakenPotion) {
-                selectedPotion.use(player, enemy); // Use the potion on the enemy
+                selectedPotion.use(player, enemy);
             }
 
             // Remove the used potion from the player's potion bag
             player.removePotion(selectedPotion);
+
+            // Resync the potion bag after using a potion
+            updatePotionBag();
+            populatePotionSelection();
 
             // After using a potion, the enemy may attack the player
             if (enemy.getHP() > 0) {
@@ -117,7 +132,7 @@ public class UsePotionGUI extends JFrame {
             }
 
             JOptionPane.showMessageDialog(this, "You used " + selectedPotion.getName() + "!");
-            dispose(); 
+            dispose(); // Close the potion window
         } else {
             JOptionPane.showMessageDialog(this, "Invalid potion selection!");
         }
