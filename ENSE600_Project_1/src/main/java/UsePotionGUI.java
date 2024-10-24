@@ -16,7 +16,6 @@ import java.util.List;
  */
 
 public class UsePotionGUI extends JFrame {
-
     private Player player;
     private Enemy enemy;
     private JComboBox<String> potionSelection;
@@ -28,8 +27,16 @@ public class UsePotionGUI extends JFrame {
     public UsePotionGUI(Player player, Enemy enemy) {
         this.player = player;
         this.enemy = enemy;
-        this.potionBag = Arrays.asList(player.getPotionBag()); // Convert array to list
-        initializeUI();
+        this.potionBag = Arrays.asList(player.getPotionBag()); // Convert Potion[] to List<Potion>
+        
+        // Check if the potionBag is null or empty
+        if (potionBag == null || potionBag.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No potions available in the potion bag!", "No Potions", JOptionPane.WARNING_MESSAGE);
+            dispose(); // Close the window if there are no potions
+            return;
+        }
+
+        initializeUI(); // Set up the graphical interface
     }
 
     // Initialize the user interface components
@@ -46,10 +53,14 @@ public class UsePotionGUI extends JFrame {
         // Label and drop-down for potion selection
         JLabel potionLabel = new JLabel("Select a potion to use:");
         potionSelection = new JComboBox<>();
-        for (int i = 0; i < potionBag.size(); i++) {
-            Potion potion = potionBag.get(i);
-            if (potion != null) {
-            potionSelection.addItem((i + 1) + ". " + potion.getName());
+        
+        // Ensure potionBag is not null or empty before populating the combo box
+        if (potionBag != null) {
+            for (int i = 0; i < potionBag.size(); i++) {
+                Potion potion = potionBag.get(i);
+                if (potion != null) {  // Check if the potion is not null
+                    potionSelection.addItem((i + 1) + ". " + potion.getName());
+                }
             }
         }
 
@@ -64,6 +75,7 @@ public class UsePotionGUI extends JFrame {
         buttonPanel.add(usePotionButton);
         buttonPanel.add(cancelButton);
 
+        // Add action listeners for buttons
         usePotionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 useSelectedPotion();
@@ -72,7 +84,7 @@ public class UsePotionGUI extends JFrame {
 
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                dispose(); // Close the window without using a potion
             }
         });
 
@@ -88,28 +100,30 @@ public class UsePotionGUI extends JFrame {
         if (selectedIndex >= 0 && selectedIndex < potionBag.size()) {
             Potion selectedPotion = potionBag.get(selectedIndex);
 
+            // Apply the potion effect depending on its type
             if (selectedPotion instanceof AttackPotion || selectedPotion instanceof HealingPotion) {
                 selectedPotion.use(player, player); // Use the potion on the player
             } else if (selectedPotion instanceof WeakenPotion) {
                 selectedPotion.use(player, enemy); // Use the potion on the enemy
             }
 
+            // Remove the used potion from the player's potion bag
             player.removePotion(selectedPotion);
 
             // After using a potion, the enemy may attack the player
             if (enemy.getHP() > 0) {
                 Battle battle = new Battle(player, enemy);
-                battle.attackPlayer(); // Enemy attacks player
+                battle.attackPlayer();
             }
 
             JOptionPane.showMessageDialog(this, "You used " + selectedPotion.getName() + "!");
-            dispose();
+            dispose(); 
         } else {
             JOptionPane.showMessageDialog(this, "Invalid potion selection!");
         }
     }
 
-    // Launch the UsePotionGUI
+    // Launch the UsePotionGUI (can be called from GameGUI)
     public static void showPotionGUI(Player player, Enemy enemy) {
         SwingUtilities.invokeLater(() -> {
             UsePotionGUI potionGUI = new UsePotionGUI(player, enemy);

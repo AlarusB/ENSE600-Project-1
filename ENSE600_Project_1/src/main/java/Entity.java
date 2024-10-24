@@ -31,23 +31,17 @@ public abstract class Entity implements Serializable {
         updateStats();
         this.HP = this.maxHP;
     }
-    
+
     // Damages Entity
     public void takeDamage(double damage) {
         if (!isAlive()) {
             System.out.println(getName() + " is already dead...");
             return;
         }
-        // Death 
-        if (damage >= HP) {
-            this.setHP(0);
-            System.out.println(getName() + " dead...");
-            return;
-        }
 
         this.setHP(this.HP - damage);
     }
-    
+
     // Heals Entity
     public boolean heal(double amount) {
         if (!isAlive()) {
@@ -92,7 +86,7 @@ public abstract class Entity implements Serializable {
         this.setMaxHP(getBaseHP() * (1 + (getLevel() / 10.0)));
         this.setATK(getBaseATK() * (1 + (getLevel() / 40)));
     }
-    
+
     public boolean isAlive() {
         return this.HP > 0;
     }

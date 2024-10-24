@@ -183,8 +183,15 @@ public class GameGUI extends JFrame implements Serializable {
 
             enemy = RandomEnemy(); // Spawn a new enemy for the next battle
         } else if (!player.isAlive()) {
-            gameOutput.append("You died. :( \n");
-            System.exit(0); // Exit game
+
+            JOptionPane.showMessageDialog(null,
+                    player.getName() + " hsa fallen! :( ",
+                    "Game Over",
+                    JOptionPane.INFORMATION_MESSAGE); // Show a death message in a pop-up
+
+            System.exit(0); // Terminate the program after the user clicks OK
+            return;
+
         }
 
         gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
