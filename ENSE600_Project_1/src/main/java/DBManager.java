@@ -19,16 +19,24 @@ import java.sql.DatabaseMetaData;
 
 public final class DBManager {
     private static final String URL = "jdbc:derby:ENSE600_Project_DB;create=true";  //url of the DB host
-
+    private static DBManager dbManagerInstance; 
     Connection conn;
 
-    public DBManager() {
+    private DBManager() {
         establishConnection();
     }
-
-    public static void main(String[] args) {
-        DBManager dbManager = new DBManager();
-        System.out.println(dbManager.getConnection());
+    
+    // Method to get the single instance of DBManager
+    public static synchronized DBManager getInstance() {
+        if (dbManagerInstance == null) {
+            dbManagerInstance = new DBManager();
+        }
+        return dbManagerInstance;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
     }
 
     public Connection getConnection() {
@@ -67,7 +75,6 @@ public final class DBManager {
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
-
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

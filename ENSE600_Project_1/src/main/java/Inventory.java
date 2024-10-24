@@ -19,7 +19,7 @@ public class Inventory {
     private final Connection conn;
     
     public Inventory() {
-        dbManager = new DBManager();
+        dbManager = DBManager.getInstance();
         conn = dbManager.getConnection();
     }
     

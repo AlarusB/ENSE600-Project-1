@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * @author abdul
  */
 public class ItemFactory {
-    private final static DBManager dbManager = new DBManager();
+    private final static DBManager dbManager = DBManager.getInstance();
     
     
     public static Weapon createWeapon(int id) {

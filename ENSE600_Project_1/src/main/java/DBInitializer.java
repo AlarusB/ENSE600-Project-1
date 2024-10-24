@@ -20,7 +20,7 @@ public class DBInitializer {
     private boolean REFRESH_MODE = false;
     
     public DBInitializer() {
-        dbManager = new DBManager();
+        dbManager = DBManager.getInstance();
         conn = dbManager.getConnection();
     }
     
