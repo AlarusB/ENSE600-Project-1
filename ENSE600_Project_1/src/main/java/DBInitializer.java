@@ -33,7 +33,10 @@ public class DBInitializer {
     }
     
     public void createItemsTable() {
-        if (dbManager.tableExists("Items") && REFRESH_MODE) {
+        if (dbManager.tableExists("Items")) {
+            if (!REFRESH_MODE) {
+                return;
+            }
             String sqlDropTable = "DROP TABLE Items";
             dbManager.updateDB(sqlDropTable);
         }
@@ -56,7 +59,10 @@ public class DBInitializer {
     }
     
     public void createEffectTypesTable() {
-        if (dbManager.tableExists("Effect_Types") && REFRESH_MODE) {
+        if (dbManager.tableExists("Effect_Types")) {
+            if (!REFRESH_MODE) {
+                return;
+            }
             String sqlDropTable = "DROP TABLE Effect_Types";
             dbManager.updateDB(sqlDropTable);
         }
@@ -74,7 +80,10 @@ public class DBInitializer {
     }
     
     public void createWeaponsTable() {
-        if (dbManager.tableExists("Weapons") && REFRESH_MODE) {
+        if (dbManager.tableExists("Weapons")) {
+            if (!REFRESH_MODE) {
+                return;
+            }
             String sqlDropTable = "DROP TABLE Weapons";
             dbManager.updateDB(sqlDropTable);
         }
@@ -94,7 +103,10 @@ public class DBInitializer {
     }
     
     public void createPotionsTable() {
-        if (dbManager.tableExists("Potions") && REFRESH_MODE) {
+        if (dbManager.tableExists("Potions")) {
+            if (!REFRESH_MODE) {
+                return;
+            }
             String sqlDropTable = "DROP TABLE Potions";
             dbManager.updateDB(sqlDropTable);
         }
