@@ -1,4 +1,5 @@
 
+import javax.swing.JOptionPane;
 import java.io.*;
 
 /*
@@ -57,12 +58,21 @@ public class Player extends Entity {
         return (int) Math.pow(getLevel(), 2) * 100;
     }
 
-    // Method to check if the player has enough XP to level up
+// Method to check if the player has enough XP to level up
     private void checkLevelUp() {
+        boolean leveledUp = false;
         while (this.xp >= getXPForNextLevel()) {
             this.xp -= getXPForNextLevel(); // Deduct XP required for level up
-            setLevel(getLevel() + 1); // Increase the player's level
-            System.out.println("Congratulations! You've leveled up to Level " + getLevel() + "!");
+            setLevel(getLevel() + 1);
+            leveledUp = true;
+        }
+
+        // Display a graphical message if the player leveled up
+        if (leveledUp) {
+            JOptionPane.showMessageDialog(null,
+                    "Congratulations! You've leveled up to Level " + getLevel() + "!",
+                    "Level Up",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
