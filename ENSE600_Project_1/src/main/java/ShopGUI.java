@@ -116,8 +116,8 @@ public class ShopGUI extends JDialog {
                 player.setGold(player.getGold() - selectedItem.getCost());
                 if (selectedItem instanceof Weapon) {
                     player.setWeapon((Weapon) selectedItem);
-                } else if (selectedItem instanceof Potion) {
-                    player.addToPotionBag((Potion) selectedItem);
+                } else {
+                    player.addItemToInventory(selectedItem);
                 }
                 JOptionPane.showMessageDialog(this, "You bought " + selectedItem.getName() + "!");
                 goldLabel.setText("Gold: " + player.getGold() + "g");

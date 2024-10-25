@@ -15,23 +15,19 @@ public class Player extends Entity {
 
     private static final long serialVersionUID = 1L;
 
-    private final int maxPotions = 3;
-    private Potion[] potionBag;
-
     private int gold;
     private double xp;
 
     private Weapon weapon;
 
     private int bonusATK;
-    private Inventory inventory;
+    private transient Inventory inventory;
 
     // Constructor for initializing the player's attributes
     public Player(String name, int level, int baseHP, int baseATK, Weapon weapon, int gold, double xp) {
         super(name, level, baseHP, baseATK); // Call the superclass (Entity) constructor
         this.weapon = weapon;
         this.bonusATK = 0;
-        this.potionBag = new Potion[maxPotions];
         this.gold = 0;
         this.xp = 0;
         this.inventory = new Inventory();
@@ -98,7 +94,9 @@ public class Player extends Entity {
         }
 
         try ( ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (Player) ois.readObject(); // Return the player object from the file
+            Player player = (Player) ois.readObject(); // Return the player object from the file
+            player.inventory = new Inventory();
+            return player;
         } catch (Exception e) {
             e.printStackTrace();
             return null; // Return null if an error occurs during loading
@@ -113,56 +111,6 @@ public class Player extends Entity {
     // Getter for the player's bonus attack
     public int getBonusATK() {
         return bonusATK;
-    }
-
-    // Retrieves a potion from the potion bag by index
-    public Potion getPotion(int index) {
-        if (index < 1 || index > maxPotions || potionBag[index - 1] == null) {
-            System.out.println("Failed to find a potion!");
-            return null;
-        }
-        return potionBag[index - 1];
-    }
-
-    // Getter for the potion bag's size
-    public int getBagSize() {
-        return maxPotions;
-    }
-
-    // Adds a potion to the potion bag
-    public void addToPotionBag(Potion potion) {
-        for (int i = 0; i < maxPotions; i++) {
-            if (potionBag[i] == null) {
-                potionBag[i] = potion;
-                System.out.println(potion.getName() + " was added to the potion bag.");
-                return;
-            }
-        }
-        System.out.println("Potion bag was full! "+potion.getName() +" has been added to inventory!");
-        addItemToInventory(potion.getId());
-    }
-
-    // Removes a potion from the potion bag
-    public void removePotion(Potion potion) {
-        for (int i = 0; i < maxPotions; i++) {
-            if (potionBag[i] == potion) {
-                potionBag[i] = null;
-                return;
-            }
-        }
-        System.out.println("Potion not found in the bag.");
-    }
-
-    // Lists out the potions in the potion bag
-    public void listPotionBag() {
-        for (int i = 0; i < maxPotions; i++) {
-            if (potionBag[i] != null) {
-                System.out.println((i + 1) + ". " + potionBag[i].getName());
-            } else {
-                System.out.println((i + 1) + ". Empty");
-            }
-        }
-        System.out.println("4. Back");
     }
 
     // Setter for the player's weapon
@@ -206,10 +154,6 @@ public class Player extends Entity {
     // Setter for the player's gold
     public void setGold(int gold) {
         this.gold = gold;
-    }
-
-    public Potion[] getPotionBag() {
-        return potionBag;
     }
     
     // Inventory Methods
