@@ -123,6 +123,18 @@ public class Player extends Entity {
         this.weapon = weapon;
         updateStats(); // Update stats after changing the weapon
     }
+    // Method to use or equip an item from the inventory
+
+    public void useItem(Item item) {
+        if (item instanceof Potion) {
+            ((Potion) item).use(this, this); // Player uses the potion on themselves
+            inventory.removeItem(item.getId()); // Remove the item after using it
+        } else if (item instanceof Weapon) {
+            setWeapon((Weapon) item); // Equip the weapon
+        } else {
+            System.out.println("Cannot use this item.");
+        }
+    }
 
     // Setter for the player's bonus attack
     public void setBonusATK(int bonusATK) {
@@ -155,17 +167,17 @@ public class Player extends Entity {
     public void setGold(int gold) {
         this.gold = gold;
     }
-    
+
     // Inventory Methods
     public void addItemToInventory(int itemId, int amount) {
         inventory.addItem(itemId, amount);
         viewInventory();
     }
-    
+
     public void addItemToInventory(int itemId) {
         addItemToInventory(itemId, 1);
     }
-    
+
     public void addItemToInventory(Item item, int amount) {
         addItemToInventory(item.getId(), amount);
     }
@@ -173,7 +185,6 @@ public class Player extends Entity {
     public void addItemToInventory(Item item) {
         addItemToInventory(item.getId(), 1);
     }
-
 
     public void viewInventory() {
         inventory.viewInventory();
@@ -187,7 +198,7 @@ public class Player extends Entity {
     public boolean itemExistsInInventory(int itemId) {
         return inventory.itemExists(itemId);
     }
-    
+
     public Map<Item, Integer> getInventoryItemMap() {
         return inventory.getItemMap();
     }

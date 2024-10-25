@@ -26,7 +26,7 @@ public class GameGUI extends JFrame implements Serializable {
 
     private JTextArea gameOutput;
     private JButton fightButton;
-    private JButton potionButton;
+    private JButton inventoryButton;
     private JButton saveButton;
     private JButton loadButton;
     private JButton exitButton;
@@ -64,7 +64,7 @@ public class GameGUI extends JFrame implements Serializable {
 
         // Create buttons
         fightButton = new JButton("Fight Enemy");
-        potionButton = new JButton("Use Potion");
+        inventoryButton = new JButton("Inventory");
         saveButton = new JButton("Save Game");
         loadButton = new JButton("Load Game");
         exitButton = new JButton("Exit Game");
@@ -76,11 +76,13 @@ public class GameGUI extends JFrame implements Serializable {
             }
         });
 
-        potionButton.addActionListener(new ActionListener() {
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                usePotion();
+                new InventoryGUI(player).setVisible(true); // Open InventoryGUI
             }
         });
+
 
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -104,7 +106,7 @@ public class GameGUI extends JFrame implements Serializable {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, 5));
         buttonPanel.add(fightButton);
-        buttonPanel.add(potionButton);
+        buttonPanel.add(inventoryButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(loadButton);
         buttonPanel.add(exitButton);
@@ -198,11 +200,7 @@ public class GameGUI extends JFrame implements Serializable {
         updateStatus();
     }
 
-    // Handle the use of potions
-    private void usePotion() {
-        // Open the UsePotionGUI to select and use a potion
-        UsePotionGUI.showPotionGUI(player, enemy);
-    }
+
 
     // Spawn a random enemy to fight
     private Enemy RandomEnemy() {
