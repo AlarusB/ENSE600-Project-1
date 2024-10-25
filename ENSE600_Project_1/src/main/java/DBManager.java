@@ -7,15 +7,11 @@
  *
  * @author abdul
  */
-/*
- * The programs are designed for PDC paper
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.DatabaseMetaData;
 
 public final class DBManager {
     private static final String URL = "jdbc:derby:ENSE600_Project_DB;create=true";  //url of the DB host

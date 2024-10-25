@@ -13,19 +13,19 @@ import java.sql.Statement;
  */
 public class DBInitializer {
     
-    private final DBManager dbManager;
-    private final Connection conn;
-    private Statement statement;
-    
+    private final DBManager dbManager;    
     private boolean refreshMode = false;
     
     public DBInitializer(boolean refreshMode) {
         dbManager = DBManager.getInstance();
-        conn = dbManager.getConnection();
         this.refreshMode = refreshMode;
     }
     
     public void setupDatabase() {
+        if (refreshMode) {
+            dropAllTables();
+        }
+        
         createItemsTable();
         createEffectTypesTable();
         createWeaponsTable();
@@ -33,13 +33,19 @@ public class DBInitializer {
         createInventoryTable();
     }
     
+    private void dropAllTables() {
+        String[] tables = {"Inventory", "Potions", "Weapons", "Effect_Types", "Items"};
+        for (String table : tables) {
+            if (dbManager.tableExists(table)) {
+                String sqlDropTable = "DROP TABLE " + table;
+                dbManager.updateDB(sqlDropTable);
+            }
+        }
+    }
+    
     public void createItemsTable() {
         if (dbManager.tableExists("Items")) {
-            if (!refreshMode) {
-                return;
-            }
-            String sqlDropTable = "DROP TABLE Items";
-            dbManager.updateDB(sqlDropTable);
+            return;
         }
         String sqlCreateTable = "CREATE TABLE Items ("
             + "item_id INT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
@@ -61,11 +67,7 @@ public class DBInitializer {
     
     public void createEffectTypesTable() {
         if (dbManager.tableExists("Effect_Types")) {
-            if (!refreshMode) {
-                return;
-            }
-            String sqlDropTable = "DROP TABLE Effect_Types";
-            dbManager.updateDB(sqlDropTable);
+            return;
         }
         String sqlCreateTable = "CREATE TABLE Effect_Types ("
             + "effect_id INT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
@@ -82,11 +84,7 @@ public class DBInitializer {
     
     public void createWeaponsTable() {
         if (dbManager.tableExists("Weapons")) {
-            if (!refreshMode) {
-                return;
-            }
-            String sqlDropTable = "DROP TABLE Weapons";
-            dbManager.updateDB(sqlDropTable);
+            return;
         }
         String sqlCreateTable = "CREATE TABLE Weapons ("
                 + "item_id INT NOT NULL PRIMARY KEY, "
@@ -105,11 +103,7 @@ public class DBInitializer {
     
     public void createPotionsTable() {
         if (dbManager.tableExists("Potions")) {
-            if (!refreshMode) {
-                return;
-            }
-            String sqlDropTable = "DROP TABLE Potions";
-            dbManager.updateDB(sqlDropTable);
+            return;
         }
         String sqlCreateTable = "CREATE TABLE Potions ("
                 + "item_id INT NOT NULL PRIMARY KEY, "
@@ -128,10 +122,6 @@ public class DBInitializer {
     
     public void createInventoryTable() {
         if (dbManager.tableExists("Inventory")) {
-            if (refreshMode) {
-                String sql = "DELETE FROM Inventory";
-                dbManager.updateDB(sql);
-            }
             return;
         }
         String sqlCreateTable = "CREATE TABLE Inventory ("
