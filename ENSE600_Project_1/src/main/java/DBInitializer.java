@@ -17,11 +17,12 @@ public class DBInitializer {
     private final Connection conn;
     private Statement statement;
     
-    private boolean REFRESH_MODE = false;
+    private boolean refreshMode = false;
     
-    public DBInitializer() {
+    public DBInitializer(boolean refreshMode) {
         dbManager = DBManager.getInstance();
         conn = dbManager.getConnection();
+        this.refreshMode = refreshMode;
     }
     
     public void setupDatabase() {
@@ -34,7 +35,7 @@ public class DBInitializer {
     
     public void createItemsTable() {
         if (dbManager.tableExists("Items")) {
-            if (!REFRESH_MODE) {
+            if (!refreshMode) {
                 return;
             }
             String sqlDropTable = "DROP TABLE Items";
@@ -60,7 +61,7 @@ public class DBInitializer {
     
     public void createEffectTypesTable() {
         if (dbManager.tableExists("Effect_Types")) {
-            if (!REFRESH_MODE) {
+            if (!refreshMode) {
                 return;
             }
             String sqlDropTable = "DROP TABLE Effect_Types";
@@ -81,7 +82,7 @@ public class DBInitializer {
     
     public void createWeaponsTable() {
         if (dbManager.tableExists("Weapons")) {
-            if (!REFRESH_MODE) {
+            if (!refreshMode) {
                 return;
             }
             String sqlDropTable = "DROP TABLE Weapons";
@@ -104,7 +105,7 @@ public class DBInitializer {
     
     public void createPotionsTable() {
         if (dbManager.tableExists("Potions")) {
-            if (!REFRESH_MODE) {
+            if (!refreshMode) {
                 return;
             }
             String sqlDropTable = "DROP TABLE Potions";
@@ -127,6 +128,10 @@ public class DBInitializer {
     
     public void createInventoryTable() {
         if (dbManager.tableExists("Inventory")) {
+            if (refreshMode) {
+                String sql = "DELETE FROM Inventory";
+                dbManager.updateDB(sql);
+            }
             return;
         }
         String sqlCreateTable = "CREATE TABLE Inventory ("

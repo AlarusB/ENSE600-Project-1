@@ -14,8 +14,6 @@ import java.io.Serializable;
 public class Main implements Serializable {
 
     public static void main(String[] args) {
-        DBInitializer dbInitializer = new DBInitializer();
-        dbInitializer.setupDatabase();
 
         String fileName = "player_data.dat";
         Player player;
@@ -41,6 +39,9 @@ public class Main implements Serializable {
                             "Load Error",
                             JOptionPane.ERROR_MESSAGE);
                     player = createNewPlayer();
+                } else {
+                    DBInitializer dbInitializer = new DBInitializer(false);
+                    dbInitializer.setupDatabase();
                 }
             } else {
                 JOptionPane.showMessageDialog(null,
@@ -62,8 +63,8 @@ public class Main implements Serializable {
     public static Player createNewPlayer() {
         Weapon startingWeapon = ItemFactory.createWeapon(1);
         // Clear inventory table in database
-        Inventory inv = new Inventory();
-        inv.clear();
+        DBInitializer dbInitializer = new DBInitializer(true);
+        dbInitializer.setupDatabase();
 
         // playerName, playerLevel, baseHP, baseATK, weapon, gold, xp
         return new Player("Guy", 2, 1000, 20, startingWeapon, 0, 0.0);

@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /*
  * Copyright 2024 Abdul B
@@ -23,7 +25,7 @@ public class Inventory {
         conn = dbManager.getConnection();
     }
     
-    // Add item to inventory
+    // Adds a specified quantity of the given item to the inventory using its ID
     public void addItem(int itemId, int amount) {
         if (amount <= 0) {
             System.out.println("Invalid amount. Cannot add item.");
@@ -46,9 +48,20 @@ public class Inventory {
             }
         }
     }
-    // Without amount argument, add a single item to inventory
+    
+    // Adds a single unit of the item to the inventory using its ID
     public void addItem(int itemId) {
         addItem(itemId, 1);
+    }
+
+    // Adds a specified quantity of the given item to the inventory
+    public void addItem(Item item, int amount) {
+        addItem(item.getId(), amount);
+    }
+
+    // Adds a single unit of the given item to the inventory
+    public void addItem(Item item) {
+        addItem(item.getId(), 1);
     }
 
     // Update item amount in inventory
@@ -125,14 +138,25 @@ public class Inventory {
         return getItemAmount(itemId) > 0;
     }
     
-    public void clear() {
-        String sql = "DELETE FROM Inventory";
+    // Get inventory as a map of items
+    public Map<Item, Integer> getItemMap() {
+        Map<Item, Integer> items = new LinkedHashMap<>();
+        String sql = "SELECT item_id, amount FROM Inventory";
+        
+        try (Statement stmt = conn.createStatement();
+              ResultSet rs = stmt.executeQuery(sql))  {
+            
+            while (rs.next()) {
+                int itemId = rs.getInt("item_id");
+                int amount = rs.getInt("amount");
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.executeUpdate();
-            //System.out.println("Inventory cleared.");
+                Item item = ItemFactory.createItem(itemId);
+                items.put(item, amount);
+            }
         } catch (SQLException ex) {
-            System.out.println("Error clearing inventory: " + ex.getMessage());
+            System.out.println("Error retrieving inventory items: " + ex.getMessage());
         }
+        
+        return items;
     }
-}
+}   

@@ -1,6 +1,7 @@
 
 import javax.swing.JOptionPane;
 import java.io.*;
+import java.util.Map;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -220,6 +221,15 @@ public class Player extends Entity {
     public void addItemToInventory(int itemId) {
         addItemToInventory(itemId, 1);
     }
+    
+    public void addItemToInventory(Item item, int amount) {
+        addItemToInventory(item.getId(), amount);
+    }
+
+    public void addItemToInventory(Item item) {
+        addItemToInventory(item.getId(), 1);
+    }
+
 
     public void viewInventory() {
         inventory.viewInventory();
@@ -232,5 +242,9 @@ public class Player extends Entity {
 
     public boolean itemExistsInInventory(int itemId) {
         return inventory.itemExists(itemId);
+    }
+    
+    public Map<Item, Integer> getInventoryItemMap() {
+        return inventory.getItemMap();
     }
 }
