@@ -63,11 +63,42 @@ public class Inventory {
     public void addItem(Item item) {
         addItem(item.getId(), 1);
     }
+    
+    // Removes a specified quantity of the given item from the inventory using its ID
+    public void removeItem(int itemId, int amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid amount. Cannot remove item.");
+            return;
+        }
+        int currentAmount = getItemAmount(itemId);
+        
+        if (currentAmount <= 0) {
+            System.out.println("Item does not exist in the inventory.");
+            return;
+        }
+        
+        updateItemAmount(itemId, currentAmount - amount);
+    }
+    
+    // Removes a single unit of the item from the inventory using its ID
+    public void removeItem(int itemId) {
+        removeItem(itemId, 1);
+    }
+
+    // Removes a specified quantity of the given item from the inventory
+    public void removeItem(Item item, int amount) {
+        removeItem(item.getId(), amount);
+    }
+
+    // Removes a single unit of the given item from the inventory
+    public void removeItem(Item item) {
+        removeItem(item.getId(), 1);
+    }
 
     // Update item amount in inventory
     public void updateItemAmount(int itemId, int newAmount) {
-        if (newAmount < 0) {
-            System.out.println("Invalid amount. Cannot update item.");
+        if (newAmount <= 0) {
+            deleteItem(itemId);
             return;
         }
         String sql = "UPDATE Inventory SET amount = ? WHERE item_id = ?";
@@ -83,7 +114,7 @@ public class Inventory {
     }
 
     // Remove item from inventory
-    public void removeItem(int itemId) {
+    public void deleteItem(int itemId) {
         String sql = "DELETE FROM Inventory WHERE item_id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {

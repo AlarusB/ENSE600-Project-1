@@ -26,6 +26,8 @@ public abstract class Potion implements Consumable, Item, Serializable {
         this.cost = cost;
     }
     
+    public abstract Entity getTarget(Entity user, Entity enemy);
+    
     @Override
     public boolean use(Entity user, Entity target)
     {

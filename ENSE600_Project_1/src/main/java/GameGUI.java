@@ -79,7 +79,7 @@ public class GameGUI extends JFrame implements Serializable {
         inventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new InventoryGUI(player).setVisible(true); // Open InventoryGUI
+                new InventoryGUI(player, enemy).setVisible(true); // Open InventoryGUI
             }
         });
 

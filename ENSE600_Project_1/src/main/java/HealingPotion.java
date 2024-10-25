@@ -15,6 +15,11 @@ public class HealingPotion extends Potion {
         this.healAmount = healAmount;
     }
     
+    @Override // Use on self
+    public Entity getTarget(Entity user, Entity enemy) {
+        return user;
+    }
+    
     @Override
     public boolean use(Entity user, Entity target) {
         

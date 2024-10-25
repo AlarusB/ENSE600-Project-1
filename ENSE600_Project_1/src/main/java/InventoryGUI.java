@@ -16,12 +16,14 @@ import java.util.Map;
 public class InventoryGUI extends JFrame {
 
     private Player player;
+    private Enemy enemy;
     private JTable itemTable;
     private JButton useButton;
     private JButton cancelButton;
 
-    public InventoryGUI(Player player) {
+    public InventoryGUI(Player player, Enemy enemy) {
         this.player = player;
+        this.enemy = enemy;
         initializeUI(player.getInventoryItemMap());
     }
 
@@ -81,10 +83,14 @@ public class InventoryGUI extends JFrame {
 
     private void useItem(Item item) {
         if (item instanceof Potion) {
-            ((Potion) item).use(player, player); // Use the potion on the player
-            player.removeItemFromInventory(item.getId());
+            // Use the potion
+            Potion potion = (Potion) item;
+            Entity target = potion.getTarget(player, enemy);
+            potion.use(player, target);
+            player.removeItemFromInventory(item);
             JOptionPane.showMessageDialog(this, "Used " + item.getName());
         } else if (item instanceof Weapon) {
+            player.removeItemFromInventory(item);
             player.setWeapon((Weapon) item);
             JOptionPane.showMessageDialog(this, "Equipped " + item.getName());
         } else {

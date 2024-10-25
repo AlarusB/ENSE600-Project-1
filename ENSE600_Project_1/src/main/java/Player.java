@@ -185,15 +185,28 @@ public class Player extends Entity {
     public void addItemToInventory(Item item) {
         addItemToInventory(item.getId(), 1);
     }
+    
+    public void removeItemFromInventory(int itemId, int amount) {
+        inventory.removeItem(itemId, amount);
+        viewInventory();
+    }
+    
+    public void removeItemFromInventory(int itemId) {
+        removeItemFromInventory(itemId, 1);
+    }
+
+    public void removeItemFromInventory(Item item, int amount) {
+        removeItemFromInventory(item.getId(), amount);
+    }
+
+    public void removeItemFromInventory(Item item) {
+        removeItemFromInventory(item.getId(), 1);
+    }
 
     public void viewInventory() {
         inventory.viewInventory();
     }
 
-    public void removeItemFromInventory(int itemId) {
-        inventory.removeItem(itemId);
-        viewInventory();
-    }
 
     public boolean itemExistsInInventory(int itemId) {
         return inventory.itemExists(itemId);

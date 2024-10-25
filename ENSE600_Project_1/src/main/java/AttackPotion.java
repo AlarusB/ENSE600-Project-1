@@ -15,6 +15,11 @@ public class AttackPotion extends Potion {
         this.attackBoost = attackBoost;
     }
     
+    @Override // Use on self
+    public Entity getTarget(Entity user, Entity enemy) {
+        return user;
+    }
+    
     @Override
     public boolean use(Entity user, Entity target) {
         if (!user.equals(target)) {
