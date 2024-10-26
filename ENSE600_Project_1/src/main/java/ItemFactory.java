@@ -57,9 +57,9 @@ public class ItemFactory {
                    "LEFT JOIN Weapons ON Items.item_id = Weapons.item_id " +
                    "LEFT JOIN Potions ON Items.item_id = Potions.item_id " +
                    "LEFT JOIN Effect_Types ON Potions.effect_id = Effect_Types.effect_id " + // Joining Effect_Types
-                   "WHERE Items.item_id = " + id;
+                   "WHERE Items.item_id = ?";
 
-        ResultSet rs = dbManager.queryDB(query);
+        ResultSet rs = dbManager.queryDB(query, id);
         if (rs.next()) { // Move to the first row of the result set
             return createItem(rs);
         }

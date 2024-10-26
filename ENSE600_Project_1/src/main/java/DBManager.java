@@ -9,6 +9,7 @@
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,7 +17,7 @@ import java.sql.Statement;
 public final class DBManager {
     private static final String URL = "jdbc:derby:ENSE600_Project_DB;create=true";  //url of the DB host
     private static DBManager dbManagerInstance; 
-    Connection connection;
+    private Connection connection;
 
     private DBManager() {
         establishConnection();
@@ -30,7 +31,7 @@ public final class DBManager {
         return dbManagerInstance;
     }
     
-    @Override
+    @Override // Prevent cloning
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
@@ -56,6 +57,7 @@ public final class DBManager {
         if (connection != null) {
             try {
                 connection.close();
+                connection = null;
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -63,13 +65,14 @@ public final class DBManager {
     }
 
     // Query the database
-    public ResultSet queryDB(String sql) {
-        Statement statement = null;
+    public ResultSet queryDB(String sql, Object... params) {
         ResultSet resultSet = null;
-
         try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+            resultSet = pstmt.executeQuery();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -77,10 +80,13 @@ public final class DBManager {
     }
 
     // Update the database
-    public void updateDB(String sql) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
-        } catch (SQLException ex) {
+    public void updateDB(String sql, Object... params) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+            pstmt.executeUpdate();
+            } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }

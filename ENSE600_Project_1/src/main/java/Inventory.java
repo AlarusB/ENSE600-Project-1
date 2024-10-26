@@ -18,11 +18,9 @@ import java.util.Map;
  */
 public class Inventory {
     private final DBManager dbManager;
-    private final Connection conn;
     
     public Inventory() {
         dbManager = DBManager.getInstance();
-        conn = dbManager.getConnection();
     }
     
     // Adds a specified quantity of the given item to the inventory using its ID
@@ -37,15 +35,7 @@ public class Inventory {
             updateItemAmount(itemId, currentAmount + amount);
         } else {
             String sql = "INSERT INTO Inventory (item_id, amount) VALUES (?, ?)";
-
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, itemId);
-                pstmt.setInt(2, amount);
-                pstmt.executeUpdate();
-                //System.out.println("Item added to inventory.");
-            } catch (SQLException ex) {
-                System.out.println("Error adding item: " + ex.getMessage());
-            }
+            dbManager.updateDB(sql, itemId, amount);
         }
     }
     
@@ -102,28 +92,14 @@ public class Inventory {
             return;
         }
         String sql = "UPDATE Inventory SET amount = ? WHERE item_id = ?";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, newAmount);
-            pstmt.setInt(2, itemId);
-            pstmt.executeUpdate();
-            //System.out.println("Item amount updated.");
-        } catch (SQLException ex) {
-            System.out.println("Error updating item: " + ex.getMessage());
-        }
+        dbManager.updateDB(sql, newAmount, itemId);
     }
 
     // Remove item from inventory
     public void deleteItem(int itemId) {
         String sql = "DELETE FROM Inventory WHERE item_id = ?";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, itemId);
-            pstmt.executeUpdate();
-            //System.out.println("Item removed from inventory.");
-        } catch (SQLException ex) {
-            System.out.println("Error removing item: " + ex.getMessage());
-        }
+        dbManager.updateDB(sql, itemId);
+        //System.out.println("Item removed from inventory.");
     }
 
     // View all items in inventory
@@ -131,9 +107,8 @@ public class Inventory {
         String sql = "SELECT i.item_id, i.name, inv.amount "
                    + "FROM Inventory inv "
                    + "JOIN Items i ON inv.item_id = i.item_id";
-        try (Statement stmt = conn.createStatement();
-              ResultSet rs = stmt.executeQuery(sql))  {
-            
+        
+        try (ResultSet rs = dbManager.queryDB(sql)) {
             System.out.println("Inventory:");
             while (rs.next()) {
                 int itemId = rs.getInt("item_id");
@@ -149,11 +124,7 @@ public class Inventory {
     // Get item amount from inventory
     public int getItemAmount(int itemId) {
         String sql = "SELECT amount FROM Inventory WHERE item_id = ?";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, itemId);
-            ResultSet rs = pstmt.executeQuery();
-
+        try (ResultSet rs = dbManager.queryDB(sql, itemId)) {
             if (rs.next()) {
                 return rs.getInt("amount");
             }
@@ -174,9 +145,7 @@ public class Inventory {
         Map<Item, Integer> items = new LinkedHashMap<>();
         String sql = "SELECT item_id, amount FROM Inventory";
         
-        try (Statement stmt = conn.createStatement();
-              ResultSet rs = stmt.executeQuery(sql))  {
-            
+        try (ResultSet rs = dbManager.queryDB(sql)) {
             while (rs.next()) {
                 int itemId = rs.getInt("item_id");
                 int amount = rs.getInt("amount");
