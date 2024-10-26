@@ -48,10 +48,20 @@ class GameTest {
 
     @Test
     void testInventoryAddItem() {
-
+        assertFalse(player.itemExistsInInventory(1), "Item not already be in inventory");
+        player.addItemToInventory(1);
+        assertTrue(player.itemExistsInInventory(1), "Item be added to inventory");
     }
 
     @Test
     void testInventoryRemoveItem() {
+        assertFalse(player.itemExistsInInventory(1), "Item not already be in inventory");
+        player.addItemToInventory(1);
+        player.removeItemFromInventory(1);
+        assertFalse(player.itemExistsInInventory(1), "Item should be removed from inventory");
+    }
+
+    @Test
+    void testShopBuyItem() {
     }
 }
