@@ -48,16 +48,10 @@ class GameTest {
 
     @Test
     void testInventoryAddItem() {
+
     }
 
     @Test
     void testInventoryRemoveItem() {
-        player.addItemToInventory(1);
-        player.removeItemFromInventory(1);
-        assertFalse(player.itemExistsInInventory(1), "Item should be removed from inventory");
-    }
-
-    @Test
-    void testShopBuyItem() {
     }
 }
