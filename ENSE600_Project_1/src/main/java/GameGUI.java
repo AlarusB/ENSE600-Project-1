@@ -23,6 +23,7 @@ public class GameGUI extends JFrame implements Serializable {
 
     private JLabel playerHPLabel;
     private JLabel enemyHPLabel;
+    private JLabel weaponLabel;
 
     private JTextArea gameOutput;
     private JButton fightButton;
@@ -45,14 +46,16 @@ public class GameGUI extends JFrame implements Serializable {
 
         // Create health status panel
         JPanel healthStatusPanel = new JPanel();
-        healthStatusPanel.setLayout(new GridLayout(1, 2));
+        healthStatusPanel.setLayout(new GridLayout(1, 3));
 
         // Player and Enemy HP labels
         playerHPLabel = new JLabel("Player HP: " + player.getHP());
         enemyHPLabel = new JLabel("Enemy HP: ");
+        weaponLabel = new JLabel("Weapon: " + (player.getWeapon().getName()));
 
         healthStatusPanel.add(playerHPLabel);
         healthStatusPanel.add(enemyHPLabel);
+        healthStatusPanel.add(weaponLabel);
 
         // Create the game output area
         gameOutput = new JTextArea();
@@ -82,7 +85,6 @@ public class GameGUI extends JFrame implements Serializable {
                 new InventoryGUI(player, enemy).setVisible(true); // Open InventoryGUI
             }
         });
-
 
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -129,7 +131,8 @@ public class GameGUI extends JFrame implements Serializable {
         // Update HP labels
         playerHPLabel.setText("Player HP: " + player.getHP());
         enemyHPLabel.setText("Enemy HP: " + enemy.getHP());
-
+        weaponLabel.setText("Weapon: " + (player.getWeapon().getName()));
+        
         gameOutput.append("Player Level: " + player.getLevel() + " Player HP: " + player.getHP() + "\n");
         gameOutput.append(enemy.getName() + " Level: " + enemy.getLevel() + " HP: " + enemy.getHP() + "\n\n");
 
@@ -163,13 +166,14 @@ public class GameGUI extends JFrame implements Serializable {
         Battle battle = new Battle(player, enemy);
 
         if (enemy.isAlive() && player.isAlive()) {
-            battle.attackEnemy();
-            gameOutput.append("You attacked the enemy!\n");
-            if (enemy.isAlive()) {
-                battle.attackPlayer();
-                gameOutput.append("The enemy attacked you!\n\n");
-            }
+        double playerDamage = battle.attackEnemy();
+        gameOutput.append("You attacked " + enemy.getName() + " for " + playerDamage + " damage!\n");
+
+        if (enemy.isAlive()) {
+            double enemyDamage = battle.attackPlayer();
+            gameOutput.append(enemy.getName() + " attacked you for " + enemyDamage + " damage!\n\n");
         }
+    }
 
         if (!enemy.isAlive() && player.isAlive()) {
             gameOutput.append("You defeated " + enemy.getName() + "!\n");
@@ -187,7 +191,7 @@ public class GameGUI extends JFrame implements Serializable {
         } else if (!player.isAlive()) {
 
             JOptionPane.showMessageDialog(null,
-                    player.getName() + " hsa fallen! :( ",
+                    player.getName() + " has fallen! :( ",
                     "Game Over",
                     JOptionPane.INFORMATION_MESSAGE); // Show a death message in a pop-up
 
@@ -199,8 +203,6 @@ public class GameGUI extends JFrame implements Serializable {
         gameOutput.setCaretPosition(gameOutput.getDocument().getLength());
         updateStatus();
     }
-
-
 
     // Spawn a random enemy to fight
     private Enemy RandomEnemy() {

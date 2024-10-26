@@ -19,18 +19,21 @@ public class Battle {
     }
 
     // Method for the player to attack the enemy
-    public void attackEnemy() {
-        double damage = player.getATK();
-        enemy.takeDamage(damage);
+    public double attackEnemy() {
+        double damagePlayer = player.getATK();
+        enemy.takeDamage(damagePlayer);
+        return damagePlayer;
     }
 
     // Method for the enemy to attack the player
-    public void attackPlayer() {
-        double damage = enemy.getATK();
-        player.takeDamage(damage);
+    public double attackPlayer() {
+        double damageEnemy = enemy.getATK();
+        player.takeDamage(damageEnemy);
+        
 
         // Print a message showing the enemy's attack on the player
         System.out.println(enemy.getName() + " attacks " + player.getName()
-                + " for " + damage + " damage!\n");
+                + " for " + damageEnemy + " damage!\n");
+        return damageEnemy;
     }
 }
