@@ -14,6 +14,7 @@ public class ItemFactory {
 
     private final static DBManager dbManager = DBManager.getInstance();
 
+    // Create a weapon from item id
     public static Weapon createWeapon(int id) {
         Item item = null;
         try {
@@ -29,6 +30,7 @@ public class ItemFactory {
         return null;
     }
 
+    // Create a potion from item id
     public static Potion createPotion(int id) {
         Item item = null;
         try {
@@ -70,6 +72,7 @@ public class ItemFactory {
         throw new SQLException("Item with ID " + id + " not found.");
     }
 
+    // Create an item from database using a resultset
     public static Item createItem(ResultSet rs) throws SQLException {
         int itemId = rs.getInt("item_id");
         String name = rs.getString("name");

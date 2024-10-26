@@ -22,7 +22,8 @@ public final class DBManager {
     private DBManager() {
         establishConnection();
     }
-
+    
+    // Get singleton instance
     public static synchronized DBManager getInstance() {
         if (dbManagerInstance == null) {
             dbManagerInstance = new DBManager();
@@ -30,14 +31,13 @@ public final class DBManager {
         return dbManagerInstance;
     }
 
+    // Prevent cloning
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
 
-    public Connection getConnection() {
-        return this.connection;
-    }
 
+    // Create connection to URL
     public void establishConnection() {
         try {
             if (connection == null || connection.isClosed()) {
@@ -49,6 +49,7 @@ public final class DBManager {
         }
     }
 
+    // Close all connections in database
     public void closeConnections() {
         if (connection != null) {
             try {
@@ -61,6 +62,7 @@ public final class DBManager {
         }
     }
 
+    // Query from database with sql string
     public ResultSet queryDB(String sql, Object... params) {
         ResultSet resultSet = null;
         establishConnection();  // Ensure the connection is open
@@ -76,6 +78,7 @@ public final class DBManager {
         return resultSet;
     }
 
+    // Update database with sql string
     public void updateDB(String sql, Object... params) {
         establishConnection();  // Ensure the connection is open
         try ( PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -87,20 +90,8 @@ public final class DBManager {
             System.out.println("Error executing update: " + ex.getMessage());
         }
     }
-
-    public void clearDB() {
-        establishConnection();  // Ensure the connection is open
-        try ( ResultSet rs = connection.getMetaData().getTables(null, null, null, new String[]{"TABLE"})) {
-            while (rs.next()) {
-                String tableName = rs.getString("TABLE_NAME");
-                updateDB("DROP TABLE " + tableName);
-            }
-            System.out.println("All tables dropped.");
-        } catch (SQLException ex) {
-            System.out.println("Error clearing database: " + ex.getMessage());
-        }
-    }
-
+    
+    // Check if table exists in database
     public boolean tableExists(String tableName) {
         establishConnection();  // Ensure the connection is open
         try ( ResultSet rs = connection.getMetaData()
@@ -110,5 +101,9 @@ public final class DBManager {
             System.err.println("Error checking table existence: " + ex.getMessage());
         }
         return false;
+    }
+    
+    public Connection getConnection() {
+        return this.connection;
     }
 }

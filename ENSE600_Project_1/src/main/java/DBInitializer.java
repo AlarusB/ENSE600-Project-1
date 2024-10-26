@@ -21,6 +21,7 @@ public class DBInitializer {
         this.refreshMode = refreshMode;
     }
     
+    // Set up the database
     public void setupDatabase() {
         if (refreshMode) {
             System.out.println("Dropping all tables...");
@@ -35,6 +36,7 @@ public class DBInitializer {
         createInventoryTable();
     }
     
+    // Go through all tables and drop them
     private void dropAllTables() {
         String[] tables = {"Inventory", "Potions", "Weapons", "Effect_Types", "Items"};
         for (String table : tables) {
@@ -46,6 +48,7 @@ public class DBInitializer {
         }
     }
     
+    // Create items table and fill with data
     public void createItemsTable() {
         if (dbManager.tableExists("Items")) {
             System.out.println("Table Items already exists, skipping creation.");
@@ -71,6 +74,7 @@ public class DBInitializer {
         System.out.println("Inserted sample data into Items.");
     }
     
+    // Create effect types table and fill with data
     public void createEffectTypesTable() {
         if (dbManager.tableExists("Effect_Types")) {
             System.out.println("Table Effect_Types already exists, skipping creation.");
@@ -91,6 +95,7 @@ public class DBInitializer {
         System.out.println("Inserted sample data into Effect_Types.");
     }
     
+    // Create weapons table and fill with data
     public void createWeaponsTable() {
         if (dbManager.tableExists("Weapons")) {
             System.out.println("Table Weapons already exists, skipping creation.");
@@ -113,6 +118,7 @@ public class DBInitializer {
         System.out.println("Inserted sample data into Weapons.");
     }
     
+    // Create potions table and fill with data
     public void createPotionsTable() {
         if (dbManager.tableExists("Potions")) {
             System.out.println("Table Potions already exists, skipping creation.");
@@ -135,6 +141,7 @@ public class DBInitializer {
         System.out.println("Inserted sample data into Potions.");
     }
     
+    // Create inventory table and fill with data
     public void createInventoryTable() {
         if (dbManager.tableExists("Inventory")) {
             System.out.println("Table Inventory already exists, skipping creation.");
