@@ -51,7 +51,13 @@ public class GameGUI extends JFrame implements Serializable {
         // Player and Enemy HP labels
         playerHPLabel = new JLabel("Player HP: " + player.getHP());
         enemyHPLabel = new JLabel("Enemy HP: ");
-        weaponLabel = new JLabel("Weapon: " + (player.getWeapon().getName()));
+
+        // Check if the player has a weapon and set the label accordingly
+        if (player.getWeapon() != null) {
+            weaponLabel = new JLabel("Weapon: " + player.getWeapon().getName());
+        } else {
+            weaponLabel = new JLabel("Weapon: None");
+        }
 
         healthStatusPanel.add(playerHPLabel);
         healthStatusPanel.add(enemyHPLabel);
@@ -132,7 +138,7 @@ public class GameGUI extends JFrame implements Serializable {
         playerHPLabel.setText("Player HP: " + player.getHP());
         enemyHPLabel.setText("Enemy HP: " + enemy.getHP());
         weaponLabel.setText("Weapon: " + (player.getWeapon().getName()));
-        
+
         gameOutput.append("Player Level: " + player.getLevel() + " Player HP: " + player.getHP() + "\n");
         gameOutput.append(enemy.getName() + " Level: " + enemy.getLevel() + " HP: " + enemy.getHP() + "\n\n");
 
@@ -166,14 +172,14 @@ public class GameGUI extends JFrame implements Serializable {
         Battle battle = new Battle(player, enemy);
 
         if (enemy.isAlive() && player.isAlive()) {
-        double playerDamage = battle.attackEnemy();
-        gameOutput.append("You attacked " + enemy.getName() + " for " + playerDamage + " damage!\n");
+            double playerDamage = battle.attackEnemy();
+            gameOutput.append("You attacked " + enemy.getName() + " for " + playerDamage + " damage!\n");
 
-        if (enemy.isAlive()) {
-            double enemyDamage = battle.attackPlayer();
-            gameOutput.append(enemy.getName() + " attacked you for " + enemyDamage + " damage!\n\n");
+            if (enemy.isAlive()) {
+                double enemyDamage = battle.attackPlayer();
+                gameOutput.append(enemy.getName() + " attacked you for " + enemyDamage + " damage!\n\n");
+            }
         }
-    }
 
         if (!enemy.isAlive() && player.isAlive()) {
             gameOutput.append("You defeated " + enemy.getName() + "!\n");
